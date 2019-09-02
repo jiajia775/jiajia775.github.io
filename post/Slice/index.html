@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Go语言基础之切片 | JIAJIA</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jiajiaba.github.io/favicon.ico?v=1567431598740">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jiajiaba.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jiajiaba.github.io">
+        <img src="https://jiajiaba.github.io/images/avatar.png?v=1567431598740" class="site-logo">
+        <h1 class="site-title">JIAJIA</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jiajiaba.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Go语言基础之切片</h2>
+            <div class="post-date">2019-09-02</div>
+            
+              <div class="feature-container" style="background-image: url('https://jiajiaba.github.io/post-images/Slice.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>Go语言切片的基本使用<br>
+切片是由数组转变过来，因为数组有很多的局限性。</p>
+<!-- more -->
+<h2 id="colorred切片slice"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi><mo>(</mo><mi>S</mi><mi>l</mi><mi>i</mi><mi>c</mi><mi>e</mi><mo>)</mo></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{切片(Slice)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span><span class="mopen" style="color:red;">(</span><span class="mord mathdefault" style="margin-right:0.05764em;color:red;">S</span><span class="mord mathdefault" style="margin-right:0.01968em;color:red;">l</span><span class="mord mathdefault" style="color:red;">i</span><span class="mord mathdefault" style="color:red;">c</span><span class="mord mathdefault" style="color:red;">e</span><span class="mclose" style="color:red;">)</span></span></span></span></span></h2>
+<p>切片（Slice）是一个拥有相同类型元素的可变长度的序列。它是基于数组类型做的一层封装。它非常灵活，支持自动扩容。<br>
+切片是一个引用类型，它的内部结构包含地址、长度和容量。切片一般用于快速地操作一块数据集合。</p>
+<h2 id="colorred切片的定义"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">定</mi><mi mathvariant="normal">义</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{切片的定义}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span><span class="mord cjk_fallback" style="color:red;">的</span><span class="mord cjk_fallback" style="color:red;">定</span><span class="mord cjk_fallback" style="color:red;">义</span></span></span></span></span></h2>
+<p><code>var 变量名 []切片类型</code></p>
+<pre><code class="language-/usr/bin/env">func main() {
+	var a []int
+	var b = []int{}
+	fmt.Println(a == nil)
+	fmt.Println(b == nil)
+
+	var c = []bool{false, true}
+	var d = []bool{false, true}
+	fmt.Println(c == d)
+}
+</code></pre>
+<h2 id="colorred切片的长度和容量"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">长</mi><mi mathvariant="normal">度</mi><mi mathvariant="normal">和</mi><mi mathvariant="normal">容</mi><mi mathvariant="normal">量</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{切片的长度和容量}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span><span class="mord cjk_fallback" style="color:red;">的</span><span class="mord cjk_fallback" style="color:red;">长</span><span class="mord cjk_fallback" style="color:red;">度</span><span class="mord cjk_fallback" style="color:red;">和</span><span class="mord cjk_fallback" style="color:red;">容</span><span class="mord cjk_fallback" style="color:red;">量</span></span></span></span></span></h2>
+<ol>
+<li>切片拥有自己的长度和容量</li>
+<li>可以通过使用内置的len()函数求长度</li>
+<li>使用内置的cap()函数求切片的容量。</li>
+</ol>
+<h2 id="colorred基于数组定义的切片"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">基</mi><mi mathvariant="normal">于</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">组</mi><mi mathvariant="normal">定</mi><mi mathvariant="normal">义</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{基于数组定义的切片}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">基</span><span class="mord cjk_fallback" style="color:red;">于</span><span class="mord cjk_fallback" style="color:red;">数</span><span class="mord cjk_fallback" style="color:red;">组</span><span class="mord cjk_fallback" style="color:red;">定</span><span class="mord cjk_fallback" style="color:red;">义</span><span class="mord cjk_fallback" style="color:red;">的</span><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span></span></span></span></span></h2>
+<p>其使用方法类似python的切片</p>
+<pre><code class="language-/usr/bin/env"> func main() {
+	// 基于数组定义切片
+	a := [5]int{55, 56, 57, 58, 59}
+	b := a[1:4]                     //基于数组a创建切片，包括元素a[1],a[2],a[3]
+	fmt.Println(b)                  //[56 57 58]
+	fmt.Printf(&quot;type of b:%T\n&quot;, b) //type of b:[]int
+}
+</code></pre>
+<h2 id="colorred切片再切片"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi><mi mathvariant="normal">再</mi><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{切片再切片}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span><span class="mord cjk_fallback" style="color:red;">再</span><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span></span></span></span></span></h2>
+<pre><code class="language-/usr/bin/env">func main() {
+	//切片再切片
+	a := [...]string{&quot;n0&quot;, &quot;n1&quot;, &quot;n2&quot;, &quot;n3&quot;, &quot;n4&quot;, &quot;n5&quot;}
+	fmt.Printf(&quot;a:%v type:%T len:%d  cap:%d\n&quot;, a, a, len(a), cap(a))
+	b := a[1:3]
+	fmt.Printf(&quot;b:%v type:%T len:%d  cap:%d\n&quot;, b, b, len(b), cap(b))
+	c := b[1:5]
+	fmt.Printf(&quot;c:%v type:%T len:%d  cap:%d\n&quot;, c, c, len(c), cap(c))
+}
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-/usr/bin/env">a:[n0 n1 n2 n3 n4 n5] type:[6]string len:6  cap:6
+b:[n1 n2] type:[]string len:2  cap:5
+c:[n2 n3 n4 n5] type:[]string len:4  cap:4
+</code></pre>
+<h3 id="注意-对切片进行再切片时索引不能超过原数组的长度否则会出现索引越界的错误">注意： 对切片进行再切片时，索引不能超过原数组的长度，否则会出现索引越界的错误。</h3>
+<h2 id="colorredmake函数构造切片"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi>m</mi><mi>a</mi><mi>k</mi><mi>e</mi><mi mathvariant="normal">函</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">构</mi><mi mathvariant="normal">造</mi><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{make函数构造切片}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord mathdefault" style="color:red;">m</span><span class="mord mathdefault" style="color:red;">a</span><span class="mord mathdefault" style="margin-right:0.03148em;color:red;">k</span><span class="mord mathdefault" style="color:red;">e</span><span class="mord cjk_fallback" style="color:red;">函</span><span class="mord cjk_fallback" style="color:red;">数</span><span class="mord cjk_fallback" style="color:red;">构</span><span class="mord cjk_fallback" style="color:red;">造</span><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span></span></span></span></span></h2>
+<pre><code class="language-/usr/bin/env">func main() {
+	a := make([]int, 2, 10)
+	fmt.Println(a)      //[0 0]
+	fmt.Println(len(a)) //2
+	fmt.Println(cap(a)) //10
+}
+</code></pre>
+<h2 id="colorred切片的本质"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">本</mi><mi mathvariant="normal">质</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{切片的本质}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span><span class="mord cjk_fallback" style="color:red;">的</span><span class="mord cjk_fallback" style="color:red;">本</span><span class="mord cjk_fallback" style="color:red;">质</span></span></span></span></span></h2>
+<p>切片的本质就是对底层数组的封装，它包含了三个信息：底层数组的指针、切片的长度（len）和切片的容量（cap）。</p>
+<p>举个例子，有一个数组a := [8]int{0, 1, 2, 3, 4, 5, 6, 7}，切片s1 := a[:5]，相应示意图如下。<br>
+<img src="https://jiajiaba.github.io/post-images/1567430493603.png" alt=""><br>
+切片s2 := a[3:6]，相应示意图如下：<br>
+<img src="https://jiajiaba.github.io/post-images/1567430512393.png" alt=""></p>
+<h2 id="colorred切片不能直接比较"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi><mi mathvariant="normal">不</mi><mi mathvariant="normal">能</mi><mi mathvariant="normal">直</mi><mi mathvariant="normal">接</mi><mi mathvariant="normal">比</mi><mi mathvariant="normal">较</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{切片不能直接比较}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span><span class="mord cjk_fallback" style="color:red;">不</span><span class="mord cjk_fallback" style="color:red;">能</span><span class="mord cjk_fallback" style="color:red;">直</span><span class="mord cjk_fallback" style="color:red;">接</span><span class="mord cjk_fallback" style="color:red;">比</span><span class="mord cjk_fallback" style="color:red;">较</span></span></span></span></span></h2>
+<ol>
+<li>切片之间是不能比较的，我们不能使用==操作符来判断两个切片是否含有全部相等元素。</li>
+<li>切片唯一合法的比较操作是和nil比较。</li>
+<li>重要：判断一个切片是否是空的，要是用len(s) == 0来判断，不应该使用s == nil来判断</li>
+</ol>
+<pre><code class="language-/usr/bin/env">var s1 []int         //len(s1)=0;cap(s1)=0;s1==nil
+s2 := []int{}        //len(s2)=0;cap(s2)=0;s2!=nil
+s3 := make([]int, 0) //len(s3)=0;cap(s3)=0;s3!=nil
+</code></pre>
+<h2 id="colorred切片拷贝赋值"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi><mi mathvariant="normal">拷</mi><mi mathvariant="normal">贝</mi><mi mathvariant="normal">赋</mi><mi mathvariant="normal">值</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{切片拷贝赋值}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span><span class="mord cjk_fallback" style="color:red;">拷</span><span class="mord cjk_fallback" style="color:red;">贝</span><span class="mord cjk_fallback" style="color:red;">赋</span><span class="mord cjk_fallback" style="color:red;">值</span></span></span></span></span></h2>
+<p>注意：切片是引用类型，切片拷贝前后，两个变量共享底层数组</p>
+<pre><code class="language-/usr/bin/env">func main() {
+	s1 := make([]int, 3) //[0 0 0]
+	s2 := s1             //将s1直接赋值给s2，s1和s2共用一个底层数组
+	s2[0] = 100
+	fmt.Println(s1) //[100 0 0]
+	fmt.Println(s2) //[100 0 0]
+}
+</code></pre>
+<p>copy方法：</p>
+<pre><code class="language-/usr/bin/env">func main() {
+	// copy()复制切片
+	a := []int{1, 2, 3, 4, 5}
+	c := make([]int, 5, 5)
+	copy(c, a)     //使用copy()函数将切片a中的元素复制到切片c
+	fmt.Println(a) //[1 2 3 4 5]
+	fmt.Println(c) //[1 2 3 4 5]
+	c[0] = 1000
+	fmt.Println(a) //[1 2 3 4 5]
+	fmt.Println(c) //[1000 2 3 4 5]
+}
+</code></pre>
+<h2 id="colorred切片append方法扩容特点"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi><mi>a</mi><mi>p</mi><mi>p</mi><mi>e</mi><mi>n</mi><mi>d</mi><mi mathvariant="normal">方</mi><mi mathvariant="normal">法</mi><mi mathvariant="normal">扩</mi><mi mathvariant="normal">容</mi><mi mathvariant="normal">特</mi><mi mathvariant="normal">点</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{切片append方法扩容特点}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span><span class="mord mathdefault" style="color:red;">a</span><span class="mord mathdefault" style="color:red;">p</span><span class="mord mathdefault" style="color:red;">p</span><span class="mord mathdefault" style="color:red;">e</span><span class="mord mathdefault" style="color:red;">n</span><span class="mord mathdefault" style="color:red;">d</span><span class="mord cjk_fallback" style="color:red;">方</span><span class="mord cjk_fallback" style="color:red;">法</span><span class="mord cjk_fallback" style="color:red;">扩</span><span class="mord cjk_fallback" style="color:red;">容</span><span class="mord cjk_fallback" style="color:red;">特</span><span class="mord cjk_fallback" style="color:red;">点</span></span></span></span></span></h2>
+<pre><code class="language-/usr/bin/env">func main() {
+	var a = make([]int, 0, 1)
+	oldCaps := cap(a)
+	for i := 0; i &lt; 30; i++ {
+		a = append(a, i)
+		if newCaps := cap(a); oldCaps &lt; newCaps {
+			fmt.Printf(&quot;cap:%d======&gt;%d\n&quot;, oldCaps, newCaps)
+			oldCaps = newCaps
+		}
+	}
+}
+</code></pre>
+<p>输出：</p>
+<pre><code>cap:1======&gt;2
+cap:2======&gt;4
+cap:4======&gt;8
+cap:8======&gt;16
+cap:16======&gt;32
+</code></pre>
+<h2 id="colorred切片删除元素"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi><mi mathvariant="normal">删</mi><mi mathvariant="normal">除</mi><mi mathvariant="normal">元</mi><mi mathvariant="normal">素</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{切片删除元素}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span><span class="mord cjk_fallback" style="color:red;">删</span><span class="mord cjk_fallback" style="color:red;">除</span><span class="mord cjk_fallback" style="color:red;">元</span><span class="mord cjk_fallback" style="color:red;">素</span></span></span></span></span></h2>
+<p>Go语言中并没有删除切片元素的专用方法，可以使用切片本身的特性来删除元素</p>
+<pre><code class="language-/usr/bin/env">func main() {
+	// 从切片中删除元素
+	a := []int{30, 31, 32, 33, 34, 35, 36, 37}
+	// 要删除索引为2的元素
+	a = append(a[:2], a[3:]...)
+	fmt.Println(a) //[30 31 33 34 35 36 37]
+}
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jiajiaba.github.io/tag/AuSlUrRyP" class="tag">
+                    Go
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jiajiaba.github.io/post/shuzu">
+                  <h3 class="post-title">
+                    Go语言基础之数组
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'ddea2cdc460d0967693e',
+        clientSecret: 'dd260d8246709a16d4e788d2b03396a25bb2115c',
+        repo: 'jiajiaba.github.io',
+        owner: 'jiajiaba',
+        admin: ['jiajiaba'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
