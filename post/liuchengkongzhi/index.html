@@ -1,25 +1,111 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://jiajiaba.github.io</id>
-    <title>JIAJIA</title>
-    <updated>2019-09-02T06:59:22.735Z</updated>
-    <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://jiajiaba.github.io"/>
-    <link rel="self" href="https://jiajiaba.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
-    <logo>https://jiajiaba.github.io/images/avatar.png</logo>
-    <icon>https://jiajiaba.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, JIAJIA</rights>
-    <entry>
-        <title type="html"><![CDATA[Go语言基础之流程控制]]></title>
-        <id>https://jiajiaba.github.io/post/liuchengkongzhi</id>
-        <link href="https://jiajiaba.github.io/post/liuchengkongzhi">
-        </link>
-        <updated>2019-09-02T03:07:55.000Z</updated>
-        <summary type="html"><![CDATA[<p>Go语言中最常用的流程控制有if和for<br>
-switch和goto主要是为了简化代码、降低重复代码而生的结构，属于扩展类的流程控制。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>Go语言中最常用的流程控制有if和for<br>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Go语言基础之流程控制 | JIAJIA</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jiajiaba.github.io/favicon.ico?v=1567407549082">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jiajiaba.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jiajiaba.github.io">
+        <img src="https://jiajiaba.github.io/images/avatar.png?v=1567407549082" class="site-logo">
+        <h1 class="site-title">JIAJIA</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jiajiaba.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Go语言基础之流程控制</h2>
+            <div class="post-date">2019-09-02</div>
+            
+              <div class="feature-container" style="background-image: url('https://jiajiaba.github.io/post-images/liuchengkongzhi.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>Go语言中最常用的流程控制有if和for<br>
 switch和goto主要是为了简化代码、降低重复代码而生的结构，属于扩展类的流程控制。</p>
  <!-- more -->
 <h3 id="colorredifelse分支结构"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi>i</mi><mi>f</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi>e</mi><mi>l</mi><mi>s</mi><mi>e</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>(</mo><mi mathvariant="normal">分</mi><mi mathvariant="normal">支</mi><mi mathvariant="normal">结</mi><mi mathvariant="normal">构</mi><mo>)</mo></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{if..else..(分支结构)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord" style="color:red;"><span class="mord mathdefault" style="color:red;">i</span><span class="mord mathdefault" style="margin-right:0.10764em;color:red;">f</span><span class="mord" style="color:red;">.</span><span class="mord" style="color:red;">.</span><span class="mord mathdefault" style="color:red;">e</span><span class="mord mathdefault" style="margin-right:0.01968em;color:red;">l</span><span class="mord mathdefault" style="color:red;">s</span><span class="mord mathdefault" style="color:red;">e</span><span class="mord" style="color:red;">.</span><span class="mord" style="color:red;">.</span><span class="mopen" style="color:red;">(</span><span class="mord cjk_fallback" style="color:red;">分</span><span class="mord cjk_fallback" style="color:red;">支</span><span class="mord cjk_fallback" style="color:red;">结</span><span class="mord cjk_fallback" style="color:red;">构</span><span class="mclose" style="color:red;">)</span></span></span></span></span></h3>
@@ -158,193 +244,84 @@ End:
 	fmt.Println(&quot;333&quot;)
 }
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Go语言基础之iota]]></title>
-        <id>https://jiajiaba.github.io/post/iota</id>
-        <link href="https://jiajiaba.github.io/post/iota">
-        </link>
-        <updated>2019-09-02T01:10:47.000Z</updated>
-        <summary type="html"><![CDATA[<p>关于Go语言中iota的基本使用</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>关于Go语言中iota的基本使用</p>
-<!-- more -->
-<h3 id="colorrediota"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi>i</mi><mi>o</mi><mi>t</mi><mi>a</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{iota}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord mathdefault" style="color:red;">i</span><span class="mord mathdefault" style="color:red;">o</span><span class="mord mathdefault" style="color:red;">t</span><span class="mord mathdefault" style="color:red;">a</span></span></span></span></span></h3>
-<p>iota是go语言的常量计数器，只能在常量的表达式中使用<br>
-iota在const关键字出现时将被重置为0。const中每新增一行常量声明将使iota计数一次</p>
-<pre><code class="language-!/usr/bin/env">const (
-	n1 = iota //0
-	n2        //1
-	n3        //2
-	n4        //3
-)
-</code></pre>
-<h3 id="colorred几个常见的iota示例"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">几</mi><mi mathvariant="normal">个</mi><mi mathvariant="normal">常</mi><mi mathvariant="normal">见</mi><mi mathvariant="normal">的</mi><mi>i</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi mathvariant="normal">示</mi><mi mathvariant="normal">例</mi><mo>:</mo></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{几个常见的iota示例:}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">几</span><span class="mord cjk_fallback" style="color:red;">个</span><span class="mord cjk_fallback" style="color:red;">常</span><span class="mord cjk_fallback" style="color:red;">见</span><span class="mord cjk_fallback" style="color:red;">的</span><span class="mord mathdefault" style="color:red;">i</span><span class="mord mathdefault" style="color:red;">o</span><span class="mord mathdefault" style="color:red;">t</span><span class="mord mathdefault" style="color:red;">a</span><span class="mord cjk_fallback" style="color:red;">示</span><span class="mord cjk_fallback" style="color:red;">例</span><span class="mspace" style="color:red;margin-right:0.2777777777777778em;"></span><span class="mrel" style="color:red;">:</span></span></span></span></span></h3>
-<ul>
-<li>使用_跳过某些值</li>
-</ul>
-<pre><code class="language-/usr/bin/env">const (
-	n1 = iota //0
-	n2        //1
-	_
-	n4 //3
-)
-</code></pre>
-<ul>
-<li>iota声明过程中间插队</li>
-</ul>
-<pre><code class="language-!/usr/bin/env">const (
-	n1 = iota //0
-	n2 = 100  //100
-	n3 = iota //2
-	n4        //3
-)
-const n5 = iota //0
-</code></pre>
-<ul>
-<li>多个iota定义在一行</li>
-</ul>
-<pre><code class="language-!/usr/bin/env">const (
-	a, b = iota + 1, iota + 2 //1,2
-	c, d                      //2,3
-	e, f                      //3,4
-)
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Docker常用命令]]></title>
-        <id>https://jiajiaba.github.io/post/docker-chang-yong-ming-ling</id>
-        <link href="https://jiajiaba.github.io/post/docker-chang-yong-ming-ling">
-        </link>
-        <updated>2019-08-27T01:24:21.000Z</updated>
-        <summary type="html"><![CDATA[<p>Docker的一些常用命令。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>Docker的一些常用命令。</p>
- <!-- more -->
-<p><strong>帮助命令：</strong></p>
-<ol>
-<li>docker version：显示 Docker 版本信息。</li>
-<li>docker info：显示 Docker 系统信息，包括镜像和容器数。</li>
-<li>docker --help 帮助命令</li>
-</ol>
-<p><strong>镜像命令</strong></p>
-<ol>
-<li>docker images  列出本地主机上的镜像
-<ul>
-<li>-a：列出本地所有镜像（含中间映像层）</li>
-<li>-q：只显示镜像ID</li>
-<li>--digests：显示镜像的摘要信息</li>
-<li>--no-trunc：显示完整的镜像信息</li>
-</ul>
-</li>
-<li>docker search  从Docker Hub查找镜像
-<ul>
-<li>-s：列出收藏数不小于指定的镜像</li>
-<li>--no-trunc：显示完整的镜像信息</li>
-<li>--automated：只列出automated build(自动构建)类型的镜像，也就是非官方的。</li>
-</ul>
-</li>
-<li>docker pull  从Docker Hub下载镜像</li>
-<li>docker rmi   删除镜像
-<ul>
-<li>删除单个：docker rmi -f 镜像ID</li>
-<li>删除多个：docker rmi -f 镜像名1:TAG 镜像名2:TAG</li>
-<li>删除全部：docker rmi -f $(docker images -qa)</li>
-</ul>
-</li>
-</ol>
-<p><strong>容器命令(有镜像才能创建容器，这是根本前提)</strong></p>
-<ol>
-<li>docker images  列出本地主机上的镜像
-<ul>
-<li>--name = &quot;容器新名字&quot;，为容器指定一个名称</li>
-<li>-d： 后台运行容器，并返回容器ID，即启动守护式容器</li>
-<li>-i：以交互模式运行容器，通常与-t同时使用</li>
-<li>-t为容器重新分配一个伪输入终端，通常与-i同时使用</li>
-<li>-P：随机端口映射</li>
-<li>-p：指定端口映射</li>
-</ul>
-</li>
-<li>docker ps  列出当前正在运行的全部命令
-<ul>
-<li>-a：列出当前所有正在运行的容器+历史上运行过的</li>
-<li>-l：显示最近创建的容器</li>
-<li>-n：显示最近n个创建的容器</li>
-<li>-q：静默模式，只显示容器编号</li>
-<li>--no-trunc：不截断输出</li>
-</ul>
-</li>
-<li>退出容器
-<ul>
-<li>exit：容器停止并且退出</li>
-<li>ctrl+P+Q：容器不停止退出</li>
-</ul>
-</li>
-<li>启动容器
-<ul>
-<li>docker start 容器ID或者容器名</li>
-</ul>
-</li>
-<li>重启容器
-<ul>
-<li>docker restart 容器ID或者容器名</li>
-</ul>
-</li>
-<li>停止容器
-<ul>
-<li>docker stop 容器ID或者容器名</li>
-</ul>
-</li>
-<li>强制停止容器
-<ul>
-<li>docker kill 容器ID或者容器名</li>
-</ul>
-</li>
-<li>删除已经停止的容器
-<ul>
-<li>docker rm 容器ID</li>
-<li>一次性删除多个容器：docker rm -f $(docker ps -qa)</li>
-</ul>
-</li>
-<li>启动守护式进程(即后台运行)
-<ul>
-<li>docker -d 容器名</li>
-</ul>
-</li>
-<li>查看容器日志：docker logs -f --tail 容器ID
-<ul>
-<li>-t：是加入的时间戳</li>
-<li>-f：跟随最新的日志打印</li>
-<li>--tail 数字。显示最后多少条</li>
-</ul>
-</li>
-<li>查看容器内运行的进程
-<ul>
-<li>docker top 容器ID</li>
-</ul>
-</li>
-<li>查看容器内部细节
-<ul>
-<li>docker inspect 容器ID</li>
-</ul>
-</li>
-<li>进入正在运行的容器，并以命令行交互
-<ul>
-<li>docker exec -it 容器ID /bin/bash</li>
-<li>重新进入：docker attach 容器ID</li>
-<li>两者区别：<br>
-attach：直接进入容器启动命令的终端，不会启动新的进程。<br>
-exec：是在容器中打开新的终端，并且可以启动新的进程，举例：docker exec - it 容器ID ls -l</li>
-</ul>
-</li>
-<li>从容器内拷贝文件到主机上
-<ul>
-<li>docker cp 容器ID：容器内路径  目的主机路径</li>
-</ul>
-</li>
-</ol>
-]]></content>
-    </entry>
-</feed>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jiajiaba.github.io/tag/AuSlUrRyP" class="tag">
+                    Go
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jiajiaba.github.io/post/iota">
+                  <h3 class="post-title">
+                    Go语言基础之iota
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'ddea2cdc460d0967693e',
+        clientSecret: 'dd260d8246709a16d4e788d2b03396a25bb2115c',
+        repo: 'jiajiaba.github.io',
+        owner: 'jiajiaba',
+        admin: ['jiajiaba'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
