@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://jiajiaba.github.io/favicon.ico?v=1567410429697">
+<link rel="shortcut icon" href="https://jiajiaba.github.io/favicon.ico?v=1567410840354">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://jiajiaba.github.io/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://jiajiaba.github.io">
-        <img src="https://jiajiaba.github.io/images/avatar.png?v=1567410429697" class="site-logo">
+        <img src="https://jiajiaba.github.io/images/avatar.png?v=1567410840354" class="site-logo">
         <h1 class="site-title">JIAJIA</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -128,6 +128,14 @@ a = b //不可以这样做，因为此时a和b是不同的类型
 	fmt.Println(testArray)                      //[0 0 0]
 	fmt.Println(numArray)                       //[1 2 0]
 	fmt.Println(cityArray)                      //[北京 上海 深圳]
+}
+</code></pre>
+<ul>
+<li>短声明</li>
+</ul>
+<pre><code class="language-/usr/bin/env">func main() {
+	x := [3]int{1, 2, 3}
+	fmt.Println(x)
 }
 </code></pre>
 <ul>
