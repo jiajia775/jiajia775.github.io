@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Go语言基础之map | JIAJIA</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jiajiaba.github.io/favicon.ico?v=1567515715287">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jiajiaba.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jiajiaba.github.io">
+        <img src="https://jiajiaba.github.io/images/avatar.png?v=1567515715287" class="site-logo">
+        <h1 class="site-title">JIAJIA</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jiajiaba.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Go语言基础之map</h2>
+            <div class="post-date">2019-09-03</div>
+            
+              <div class="feature-container" style="background-image: url('https://jiajiaba.github.io/post-images/map.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>Go语言map的基本使用<br>
+Go语言中提供的映射关系容器为map，其内部使用散列表（hash）实现。</p>
+<!-- more --> 
+<h2 id="colorredmap"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi>m</mi><mi>a</mi><mi>p</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{map}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord" style="color:red;"><span class="mord mathdefault" style="color:red;">m</span><span class="mord mathdefault" style="color:red;">a</span><span class="mord mathdefault" style="color:red;">p</span></span></span></span></span></h2>
+<p>map是一种无序的基于key-value的数据结构<br>
+Go语言中的map是引用类型，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">必</mi><mi mathvariant="normal">须</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{必须}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">必</span><span class="mord cjk_fallback" style="color:red;">须</span></span></span></span></span>初始化才能使用。</p>
+<h2 id="colorredmap的定义"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi>m</mi><mi>a</mi><mi>p</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">定</mi><mi mathvariant="normal">义</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{map的定义}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord" style="color:red;"><span class="mord mathdefault" style="color:red;">m</span><span class="mord mathdefault" style="color:red;">a</span><span class="mord mathdefault" style="color:red;">p</span><span class="mord cjk_fallback" style="color:red;">的</span><span class="mord cjk_fallback" style="color:red;">定</span><span class="mord cjk_fallback" style="color:red;">义</span></span></span></span></span></h2>
+<p>语法为：<code>map[KeyType]ValueType</code></p>
+<ul>
+<li>KeyType:表示键的类型。</li>
+<li>ValueType:表示键对应的值的类型。</li>
+</ul>
+<p>map类型的变量默认初始值为nil，需要使用make()函数来分配内存。语法为：<br>
+<code>make(map[KeyType]ValueType, [cap])</code><br>
+cap表示map的容量，该参数不是必须的，但是初始化的时候应该指定一个合理的容量。</p>
+<pre><code class="language-/usr/bin/env">func main() {
+	var a map[string]int
+	a = make(map[string]int)
+	a[&quot;jiajia&quot;] = 100
+	fmt.Println(a) //map[jiajia:100]
+
+	b := make(map[string]int)
+	b[&quot;Go&quot;] = 100
+	fmt.Println(b) //map[Go:100]
+}
+</code></pre>
+<p>map也支持在声明的时候填充元素，例如：</p>
+<pre><code class="language-/usr/bin/env">func main() {
+	a := map[string]int{
+		&quot;jiajia&quot;: 1,
+		&quot;Go&quot;:     2,
+	}
+	fmt.Println(a) //map[Go:2 jiajia:1]
+}
+</code></pre>
+<h2 id="colorred判断某个键是否存在"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">判</mi><mi mathvariant="normal">断</mi><mi mathvariant="normal">某</mi><mi mathvariant="normal">个</mi><mi mathvariant="normal">键</mi><mi mathvariant="normal">是</mi><mi mathvariant="normal">否</mi><mi mathvariant="normal">存</mi><mi mathvariant="normal">在</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{判断某个键是否存在}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">判</span><span class="mord cjk_fallback" style="color:red;">断</span><span class="mord cjk_fallback" style="color:red;">某</span><span class="mord cjk_fallback" style="color:red;">个</span><span class="mord cjk_fallback" style="color:red;">键</span><span class="mord cjk_fallback" style="color:red;">是</span><span class="mord cjk_fallback" style="color:red;">否</span><span class="mord cjk_fallback" style="color:red;">存</span><span class="mord cjk_fallback" style="color:red;">在</span></span></span></span></span></h2>
+<p>Go语言中有个判断map中键是否存在的特殊写法，格式如下:<br>
+<code>value, ok := map[key]</code><br>
+示例代码：</p>
+<pre><code class="language-/usr/bin/env">func main() {
+	a := map[string]int{
+		&quot;jiajia&quot;: 1,
+		&quot;Go&quot;:     2,
+	}
+	v, ok := a[&quot;jiajia&quot;]
+	if ok {
+		fmt.Println(v)
+	} else {
+		fmt.Println(&quot;None&quot;)
+	}
+}
+</code></pre>
+<h2 id="colorredmap的遍历"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi>m</mi><mi>a</mi><mi>p</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">遍</mi><mi mathvariant="normal">历</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{map的遍历}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord" style="color:red;"><span class="mord mathdefault" style="color:red;">m</span><span class="mord mathdefault" style="color:red;">a</span><span class="mord mathdefault" style="color:red;">p</span><span class="mord cjk_fallback" style="color:red;">的</span><span class="mord cjk_fallback" style="color:red;">遍</span><span class="mord cjk_fallback" style="color:red;">历</span></span></span></span></span></h2>
+<pre><code class="language-/usr/bin/env">func main() {
+	a := map[string]int{
+		&quot;jiajia&quot;: 1,
+		&quot;Go&quot;:     2,
+	}
+	for v, k := range a {
+		fmt.Println(k, v)
+	}
+}
+</code></pre>
+<p>注意：遍历map时的元素顺序与添加键值对的顺序无关。</p>
+<h2 id="colorred使用delete函数删除键值对"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">使</mi><mi mathvariant="normal">用</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>e</mi><mi>t</mi><mi>e</mi><mi mathvariant="normal">函</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">删</mi><mi mathvariant="normal">除</mi><mi mathvariant="normal">键</mi><mi mathvariant="normal">值</mi><mi mathvariant="normal">对</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{使用delete函数删除键值对}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">使</span><span class="mord cjk_fallback" style="color:red;">用</span><span class="mord mathdefault" style="color:red;">d</span><span class="mord mathdefault" style="color:red;">e</span><span class="mord mathdefault" style="margin-right:0.01968em;color:red;">l</span><span class="mord mathdefault" style="color:red;">e</span><span class="mord mathdefault" style="color:red;">t</span><span class="mord mathdefault" style="color:red;">e</span><span class="mord cjk_fallback" style="color:red;">函</span><span class="mord cjk_fallback" style="color:red;">数</span><span class="mord cjk_fallback" style="color:red;">删</span><span class="mord cjk_fallback" style="color:red;">除</span><span class="mord cjk_fallback" style="color:red;">键</span><span class="mord cjk_fallback" style="color:red;">值</span><span class="mord cjk_fallback" style="color:red;">对</span></span></span></span></span></h2>
+<p>格式：<br>
+<code>delete(map, key)</code></p>
+<ul>
+<li>map:表示要删除键值对的map</li>
+<li>key:表示要删除的键值对的键</li>
+</ul>
+<pre><code class="language-/usr/bin/env">func main() {
+	a := map[string]int{
+		&quot;jiajia&quot;: 1,
+		&quot;Go&quot;:     2,
+	}
+	delete(a, &quot;jiajia&quot;) //删除操作
+	for v, k := range a {
+		fmt.Println(k, v)
+	}
+}
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jiajiaba.github.io/post/zhizheng">
+                  <h3 class="post-title">
+                    Go语言基础之指针
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'ddea2cdc460d0967693e',
+        clientSecret: 'dd260d8246709a16d4e788d2b03396a25bb2115c',
+        repo: 'jiajiaba.github.io',
+        owner: 'jiajiaba',
+        admin: ['jiajiaba'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

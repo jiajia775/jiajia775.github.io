@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Go语言基础之指针 | JIAJIA</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jiajiaba.github.io/favicon.ico?v=1567515715287">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jiajiaba.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jiajiaba.github.io">
+        <img src="https://jiajiaba.github.io/images/avatar.png?v=1567515715287" class="site-logo">
+        <h1 class="site-title">JIAJIA</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jiajiaba.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Go语言基础之指针</h2>
+            <div class="post-date">2019-09-03</div>
+            
+              <div class="feature-container" style="background-image: url('https://jiajiaba.github.io/post-images/zhizheng.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>Go语言指针的基本使用<br>
+Go语言中的指针不能进行偏移和运算，是安全指针。</p>
+ <!-- more -->
+<h2 id="colorred指针地址和指针类型"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">指</mi><mi mathvariant="normal">针</mi><mi mathvariant="normal">地</mi><mi mathvariant="normal">址</mi><mi mathvariant="normal">和</mi><mi mathvariant="normal">指</mi><mi mathvariant="normal">针</mi><mi mathvariant="normal">类</mi><mi mathvariant="normal">型</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{指针地址和指针类型}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">指</span><span class="mord cjk_fallback" style="color:red;">针</span><span class="mord cjk_fallback" style="color:red;">地</span><span class="mord cjk_fallback" style="color:red;">址</span><span class="mord cjk_fallback" style="color:red;">和</span><span class="mord cjk_fallback" style="color:red;">指</span><span class="mord cjk_fallback" style="color:red;">针</span><span class="mord cjk_fallback" style="color:red;">类</span><span class="mord cjk_fallback" style="color:red;">型</span></span></span></span></span></h2>
+<p>每个变量在运行时都拥有一个地址，这个地址代表变量在内存中的位置。<br>
+使用 &amp; 字符放在变量前面对变量进行“取地址”操作。<br>
+语法如下：<br>
+<code>ptr := &amp;v</code></p>
+<ul>
+<li>v代表被取地址的变量</li>
+<li>ptr用户被接收地址的变量，ptr的类型为 *T，称作指针类型，*代表指针<br>
+例子：</li>
+</ul>
+<pre><code class="language-/usr/bin/env">func main() {
+	//每个变量都有两层含义：变量的内存，变量的地址
+	var a int
+	fmt.Println(&quot;a = &quot;, a)   //变量的内存a =  0
+	fmt.Println(&quot;&amp;a = &quot;, &amp;a) //变量的地址&amp;a =  0xc00004e058
+
+	var p *int //定义一个变量p，类型为*int
+	p = &amp;a     //a的地址赋值给p
+	fmt.Printf(&quot;p = %v, &amp;a = %v\n&quot;, p, &amp;a) //p = 0xc00004e058, &amp;a = 0xc00004e058
+
+	*p = 666 //*p操作的不是p的内存,而是p所指向的内存(就是a)
+	fmt.Printf(&quot;*p = %v,a = %v&quot;, *p, a) //*p = 666,a = 666
+}
+</code></pre>
+<p><img src="https://jiajiaba.github.io/post-images/1567472710306.png" alt=""><br>
+总结：<br>
+&amp;取出地址，* 根据地址取出地址指向的值，取地址操作符&amp;和取值操作符* 是一对互补操作符。</p>
+<h4 id="指针传值示例">指针传值示例：</h4>
+<pre><code class="language-/usr/bin/env">func modify1(x int) {
+	x = 100
+}
+func modify2(x *int) {
+	*x = 100
+}
+func main() {
+	a := 10
+	modify1(a)
+	fmt.Println(a) // 10
+	modify2(&amp;a)
+	fmt.Println(a) // 100
+}
+</code></pre>
+<h4 id="不要操作没有合法指向的内存">不要操作没有合法指向的内存</h4>
+<pre><code class="language-/usr/bin/env">func main() {
+	var p *int
+	fmt.Println(p) //nil
+
+	*p = 666 //error,没有合法指向，不能赋值
+	fmt.Println(*p) //error
+}
+</code></pre>
+<ul>
+<li>在Go语言中对于引用类型的变量，我们在使用的时候不仅要声明它，还要为它分配内存空间，否则我们的值就没办法存储。</li>
+<li>对于值类型的声明不需要分配内存空间，是因为它们在声明的时候已经默认分配好了内存空间。</li>
+</ul>
+<h2 id="colorrednew函数"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi>n</mi><mi>e</mi><mi>w</mi><mi mathvariant="normal">函</mi><mi mathvariant="normal">数</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{new函数}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord mathdefault" style="color:red;">n</span><span class="mord mathdefault" style="color:red;">e</span><span class="mord mathdefault" style="margin-right:0.02691em;color:red;">w</span><span class="mord cjk_fallback" style="color:red;">函</span><span class="mord cjk_fallback" style="color:red;">数</span></span></span></span></span></h2>
+<p>Go语言中new和make是内建的两个函数，主要用来分配内存。</p>
+<h4 id="new">new</h4>
+<p>使用new函数得到的是一个类型的指针，并且该指针对应的值为该类型的零值。</p>
+<pre><code class="language-/usr/bin/env"> func main() {
+	a := new(int)
+	b := new(bool)
+	fmt.Printf(&quot;%T\n&quot;, a) // *int
+	fmt.Printf(&quot;%T\n&quot;, b) // *bool
+	fmt.Println(*a)       // 0
+	fmt.Println(*b)       // false
+}	
+</code></pre>
+<p>上面没有合法指向的解决办法：</p>
+<pre><code class="language-/usr/bin/env">func main() {
+	var p1 *int
+	p1 = new(int)
+	*p1 = 666
+	fmt.Println(*p1) //666
+
+	p2 := new(int)
+	*p2 = 777
+	fmt.Println(*p2) //777
+}
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jiajiaba.github.io/post/Slice">
+                  <h3 class="post-title">
+                    Go语言基础之切片
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'ddea2cdc460d0967693e',
+        clientSecret: 'dd260d8246709a16d4e788d2b03396a25bb2115c',
+        repo: 'jiajiaba.github.io',
+        owner: 'jiajiaba',
+        admin: ['jiajiaba'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
