@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Go语言基础之文件操作 | JIAJIA</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jiajiaba.github.io/favicon.ico?v=1567688964163">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jiajiaba.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jiajiaba.github.io">
+        <img src="https://jiajiaba.github.io/images/avatar.png?v=1567688964163" class="site-logo">
+        <h1 class="site-title">JIAJIA</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jiajiaba.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Go语言基础之文件操作</h2>
+            <div class="post-date">2019-09-05</div>
+            
+              <div class="feature-container" style="background-image: url('https://jiajiaba.github.io/post-images/document.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>Go语言中文件读写的相关操作。</p>
+<!-- more --> 
+<h2 id="colorred打开和关闭文件"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">打</mi><mi mathvariant="normal">开</mi><mi mathvariant="normal">和</mi><mi mathvariant="normal">关</mi><mi mathvariant="normal">闭</mi><mi mathvariant="normal">文</mi><mi mathvariant="normal">件</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{打开和关闭文件}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">打</span><span class="mord cjk_fallback" style="color:red;">开</span><span class="mord cjk_fallback" style="color:red;">和</span><span class="mord cjk_fallback" style="color:red;">关</span><span class="mord cjk_fallback" style="color:red;">闭</span><span class="mord cjk_fallback" style="color:red;">文</span><span class="mord cjk_fallback" style="color:red;">件</span></span></span></span></span></h2>
+<p>os.Open()函数能够打开一个文件，返回一个* File和一个err。对得到的文件实例调用close()方法能够关闭文件。后面讲到的OpenFile()可以写入文件。</p>
+<pre><code class="language-/usr/bin/env">package main
+
+import &quot;os&quot;
+
+func main() {
+	// 只读方式打开当前目录下的xxx.txt文件
+	file,err:=os.Open(&quot;xxx.txt&quot;)
+	if err:= nil{
+		fmt.Println(err)
+		return
+	}
+	//为了防止文件忘记关闭，我们通常使用defer注册文件关闭语句。
+	defer file.Close()
+}
+</code></pre>
+<h2 id="colorred读取文件"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">读</mi><mi mathvariant="normal">取</mi><mi mathvariant="normal">文</mi><mi mathvariant="normal">件</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{读取文件}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">读</span><span class="mord cjk_fallback" style="color:red;">取</span><span class="mord cjk_fallback" style="color:red;">文</span><span class="mord cjk_fallback" style="color:red;">件</span></span></span></span></span></h2>
+<h4 id="基本使用">基本使用</h4>
+<pre><code class="language-/usr/bin/env">func main() {
+	// 只读方式打开当前目录下的xxx.txt文件
+	file, err := os.Open(&quot;xxx.txt&quot;)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	//为了防止文件忘记关闭，我们通常使用defer注册文件关闭语句。
+	defer file.Close()
+
+	//读取文件
+	var tmp = make([]byte, 128)
+	n, err := file.Read(tmp)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf(&quot;读取了%d个字节\n&quot;, n)
+	fmt.Println(string(tmp[:n]))
+}
+</code></pre>
+<h4 id="循环读取">循环读取</h4>
+<pre><code class="language-/usr/bin/env">import (
+	&quot;fmt&quot;
+	&quot;io&quot;
+	&quot;os&quot;
+)
+
+func main() {
+	// 只读方式打开当前目录下的xxx.txt文件
+	file, err := os.Open(&quot;xxx.txt&quot;)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	//为了防止文件忘记关闭，我们通常使用defer注册文件关闭语句。
+	defer file.Close()
+
+	//循环读取文件
+	for {
+		var tmp = make([]byte, 128)//开辟一个128字节的slice作为缓冲
+		//Read返回的是一个字节数和一个错误
+		n, err := file.Read(tmp)
+		if err == io.EOF {
+			//把当前读了多少个字节的数据打印出来，然后退出
+			fmt.Println(string(tmp[:n]))
+			return
+		}
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Printf(&quot;读取了%d个字节\n&quot;, n)
+		fmt.Println(string(tmp[:n]))
+	}
+}
+</code></pre>
+<h4 id="bufio循环读取文件">bufio循环读取文件</h4>
+<p>bufio是在file的基础上封装了一层API，支持更多的功能。</p>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;bufio&quot;
+	&quot;fmt&quot;
+	&quot;io&quot;
+	&quot;os&quot;
+)
+
+func main() {
+	f, err := os.Open(&quot;./xxx.txt&quot;)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer f.Close()
+
+	//循环读取文件
+	//新建一个缓冲区，返回的是一个读的对象
+	reader := bufio.NewReader(f)
+	for {
+		//
+		line, err := reader.ReadString('\n')
+		if err == io.EOF {
+			fmt.Print(line)
+			return
+		}
+		if err != nil {
+			return
+		}
+		fmt.Print(line)
+	}
+}
+</code></pre>
+<h4 id="ioutil读取整个文件">ioutil读取整个文件</h4>
+<p>io/ioutil包的ReadFile方法能够读取完整的文件，只需要将文件名作为参数传入。</p>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+)
+
+func main() {
+
+	//读取文件
+	content, err := ioutil.ReadFile(&quot;./xxx.txt&quot;)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(content))
+}
+</code></pre>
+<h2 id="colorred写入文件"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">写</mi><mi mathvariant="normal">入</mi><mi mathvariant="normal">文</mi><mi mathvariant="normal">件</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{写入文件}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">写</span><span class="mord cjk_fallback" style="color:red;">入</span><span class="mord cjk_fallback" style="color:red;">文</span><span class="mord cjk_fallback" style="color:red;">件</span></span></span></span></span></h2>
+<p>os.OpenFile()函数能够以指定模式打开文件，从而实现文件写入。</p>
+<pre><code class="language-/usr/bin/env">func OpenFile(name string, flag int, perm FileMode) (*File, error) {
+	...
+}
+</code></pre>
+<ul>
+<li>name：要打开的文件名</li>
+<li>perm：文件的权限，一个八进制数，r（读）04，w（写）02，x（执行）01。</li>
+<li>flag：文件打开的模式，具体如下表<br>
+<img src="https://jiajiaba.github.io/post-images/1567685779306.png" alt=""></li>
+</ul>
+<h4 id="write和writestring">Write和WriteString</h4>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;os&quot;
+)
+
+func main() {
+	//写入文件
+	fileObj, err := os.OpenFile(&quot;yyy.txt&quot;, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer fileObj.Close()
+	fileObj.WriteString(&quot;hello go\n&quot;) //直接写入字符串数据
+	str := &quot;hello jiajia&quot;
+	fileObj.Write([]byte(str)) //写入字节切片数据
+}
+</code></pre>
+<h4 id="bufionewwriter">bufio.NewWriter</h4>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;bufio&quot;
+	&quot;fmt&quot;
+	&quot;os&quot;
+)
+
+func main() {
+	//写入文件
+	fileObj, err := os.OpenFile(&quot;zzz.txt&quot;, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer fileObj.Close()
+
+	writer := bufio.NewWriter(fileObj)
+	for i := 0; i &lt; 10; i++ {
+		writer.WriteString(&quot;hello jiajia\n&quot;) //将数据先写入缓冲区
+	}
+	writer.Flush() //将缓存区中的内容写入文件
+}
+</code></pre>
+<h4 id="ioutilwritefile">ioutil.WriteFile</h4>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+)
+
+func main() {
+	str := &quot;hello jiajia&quot;
+	err := ioutil.WriteFile(&quot;./aaa.txt&quot;, []byte(str), 0666)
+	if err != nil {
+		fmt.Println(&quot;error:&quot;, err)
+		return
+	}
+}
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jiajiaba.github.io/tag/AuSlUrRyP" class="tag">
+                    Go
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jiajiaba.github.io/post/Object">
+                  <h3 class="post-title">
+                    Go语言基础之面向对象编程
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'ddea2cdc460d0967693e',
+        clientSecret: 'dd260d8246709a16d4e788d2b03396a25bb2115c',
+        repo: 'jiajiaba.github.io',
+        owner: 'jiajiaba',
+        admin: ['jiajiaba'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
