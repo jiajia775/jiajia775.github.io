@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Go语言基础之面向对象编程 | JIAJIA</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jiajiaba.github.io/favicon.ico?v=1567652179847">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jiajiaba.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jiajiaba.github.io">
+        <img src="https://jiajiaba.github.io/images/avatar.png?v=1567652179847" class="site-logo">
+        <h1 class="site-title">JIAJIA</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jiajiaba.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Go语言基础之面向对象编程</h2>
+            <div class="post-date">2019-09-04</div>
+            
+              <div class="feature-container" style="background-image: url('https://jiajiaba.github.io/post-images/Object.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>尽管Go语言中没有封装、继承、多态这些概念，但同样通过别的方式实现这些特性：</p>
+<ul>
+<li>封装：通过方法实现</li>
+<li>继承：通过匿名字段实现</li>
+<li>多态：通过接口实现</li>
+</ul>
+<!-- more -->
+<h2 id="colorred继承"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">继</mi><mi mathvariant="normal">承</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{继承}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">继</span><span class="mord cjk_fallback" style="color:red;">承</span></span></span></span></span></h2>
+<h4 id="匿名字段">匿名字段</h4>
+<pre><code class="language-/usr/bin/env">type Person struct {
+	id   int
+	name string
+}
+
+type Student struct {
+	Person // 匿名字段，那么默认Student就包含了Person的所有字段
+	add    string
+}
+
+func main() {
+	//1.0
+	var s1 Student = Student{Person{1, &quot;jiajia&quot;}, &quot;sz&quot;}
+	fmt.Printf(&quot;s1:%#v\n&quot;, s1)
+
+	//自动推到类型
+	s2 := Student{Person{2, &quot;jiajia&quot;}, &quot;gz&quot;}
+	fmt.Printf(&quot;s2:%#v\n&quot;, s2)
+
+	s3 := Student{Person{id: 3}, &quot;bj&quot;}
+	fmt.Printf(&quot;s3:%#v\n&quot;, s3)
+
+	//成员操作
+	var s4 Student
+	s4.Person = Person{4, &quot;jiajia&quot;}
+	s4.add = &quot;sh&quot;
+	fmt.Printf(&quot;s4:%#v\n&quot;, s4)
+}
+</code></pre>
+<h4 id="同名字段">同名字段</h4>
+<pre><code class="language-/usr/bin/env">//人
+type Person struct {
+	name string
+	age  int
+	sex  byte
+}
+
+//学生
+type Student struct {
+	Person //只有类型，没有名字，匿名字段，继承了Person的成员
+	add    string
+	id     int
+	name   string //跟Person同名了，即为同名字段
+}
+
+func main() {
+	var s1 Student
+	//就近原则
+	s1.name = &quot;Go&quot; //s1 = {Person:{name: age:0 sex:0} add:sz id:1 name:Go}
+	s1.add = &quot;sz&quot;
+	s1.id = 1
+	fmt.Printf(&quot;s1 = %+v\n&quot;, s1)
+	s1.Person.name = &quot;jiajia&quot;
+	fmt.Printf(&quot;s1 = %+v\n&quot;, s1) //s1 = {Person:{name:jiajia age:0 sex:0} add:sz id:1 name:Go}
+}
+</code></pre>
+<h4 id="非结构体字段的操作">非结构体字段的操作</h4>
+<pre><code class="language-/usr/bin/env">type mystring string //自定义类型
+
+//人
+type Person struct {
+	name string
+	age  int
+	sex  byte
+}
+
+//学生
+type Student struct {
+	Person //匿名字段
+	int    //基础类型的匿名字段
+	mystring
+}
+
+func main() {
+	var s Student
+	s.Person = Person{&quot;jiajia&quot;, 18, 'm'}
+	s.int = 2
+	s.mystring = &quot;hello go&quot;
+	fmt.Printf(&quot;s = %+v\n&quot;, s)
+
+	s2 := Student{Person{&quot;jiajia&quot;, 18, 'm'}, 2, &quot;hello go&quot;}
+	fmt.Println(s2)
+}
+</code></pre>
+<h4 id="结构体指针类型匿名字段">结构体指针类型匿名字段</h4>
+<pre><code class="language-/usr/bin/env">type mystring string //自定义类型
+
+//人
+type Person struct {
+	name string
+	age  int
+	sex  byte
+}
+
+//学生
+type Student struct {
+	*Person //指针类型------匿名字段
+	int     //基础类型的匿名字段
+	mystring
+}
+
+func main() {
+	//1，0 方法一
+	var s Student
+	s.Person = &amp;Person{&quot;JIAJIA&quot;, 18, 'm'}
+	s.int = 1
+	s.mystring = &quot;hello go&quot;
+	fmt.Printf(&quot;s = %+v\n&quot;, s) //s = {Person:0xc000004480 int:2 mystring:hello go}
+	fmt.Println(s.name, s.age, s.sex)
+
+	// 2.0 方法二
+	var s2 Student
+	s2.Person = new(Person)
+	s2.name = &quot;Go&quot;
+	s2.age = 18
+	s2.sex = 'm'
+	s2.int = 2
+	s2.mystring = &quot;hello go&quot;
+	fmt.Printf(&quot;s2 = %+v\n&quot;, s2)
+
+	//3.0 方法三
+	s3 := Student{&amp;Person{name: &quot;Go&quot;, age: 18, sex: 'm'}, 3, &quot;hello go&quot;}
+	fmt.Printf(&quot;s3 = %+v\n&quot;, s3)
+}
+</code></pre>
+<p>输出结果：</p>
+<pre><code>s = {Person:0xc000004480 int:1 mystring:hello go}
+JIAJIA 18 109
+s2 = {Person:0xc0000044e0 int:2 mystring:hello go}
+s3 = {Person:0xc000004520 int:3 mystring:hello go}
+</code></pre>
+<h2 id="colorred封装"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">封</mi><mi mathvariant="normal">装</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{封装}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">封</span><span class="mord cjk_fallback" style="color:red;">装</span></span></span></span></span></h2>
+<h4 id="方法">方法</h4>
+<p>带有接收者的函数，我们称为方法(method)。 本质上，一个方法则是一个和特殊类型关联的函数。</p>
+<pre><code class="language-/usr/bin/env">//面向对象，方法：给某个类型绑定一个函数
+type bigInt int
+
+//a 叫做接收者，接收者就是传递的一个参数
+func (a bigInt) Add(b bigInt) bigInt {
+	return a + b
+}
+
+func main() {
+	//定义一个变量
+	var a bigInt = 2
+	//调用方式：变量名.函数(所需参数)
+	result := a.Add(3)
+	fmt.Println(&quot;result = &quot;, result)
+}
+</code></pre>
+<h4 id="结构体类型添加方法">结构体类型添加方法</h4>
+<pre><code class="language-/usr/bin/env">type myint int
+
+type Person struct {
+	id   int
+	name string
+}
+
+//打印
+func (p Person) Printinfo() {
+	fmt.Println(p)
+}
+
+//改变内容
+func (p *Person) changeinfo(i int, n string) {
+	p.id = i
+	p.name = n
+	fmt.Println(&quot;内部:&quot;, *p)
+}
+
+func main() {
+	p1 := Person{1, &quot;jiajia&quot;}
+	//调用打印的方法
+	p1.Printinfo()
+
+	//调用改变的方法
+	(&amp;p1).changeinfo(2, &quot;hello&quot;) //取地址操作等价于p1.changeinfo(2, &quot;hello&quot;)
+	fmt.Println(&quot;外部:&quot;, p1)
+</code></pre>
+<p>输出结果：</p>
+<pre><code>{1 jiajia}
+内部: {2 hello}
+外部: {2 hello}
+</code></pre>
+<h4 id="方法集">方法集</h4>
+<pre><code class="language-/usr/bin/env">type Person struct {
+	name string
+	age  int
+	sex  byte
+}
+
+//指针方法，非指针方法都能调用。
+
+func (p Person) SetInfoValue() {
+	fmt.Printf(&quot;SetInfoValue\n&quot;)
+}
+
+func (p *Person) SetInfoPointer() {
+	fmt.Printf(&quot;SetInfoPointer\n&quot;)
+}
+
+func main() {
+	//结构体变量是一个指针变量，它能够调用哪些方法，这些方法就是一个集合，简称方法集
+	s1 := &amp;Person{&quot;jiajia&quot;, 18, 'm'}
+	s1.SetInfoValue()
+	(*s1).SetInfoValue() //(*s)转换成s后调用。等价于24行
+
+	s2 := Person{&quot;jiajia&quot;, 18, 'm'}
+	s2.SetInfoPointer() // 内部先把s转换为&amp;s再调用。相当于(&amp;s).SetInfoPointer()
+	(&amp;s2).SetInfoPointer()
+}
+</code></pre>
+<h4 id="方法的继承">方法的继承</h4>
+<pre><code class="language-/usr/bin/env">type Person struct {
+	name string
+	age  int
+	sex  byte
+}
+
+//有个学生，继承了Person字段，成员和方法都继承了
+type Student struct {
+	Person //匿名字段
+	id     int
+	addr   string
+}
+
+//Person类型，实现了一个打印输出的方法
+func (tmp *Person) PrintInfo() {
+	fmt.Printf(&quot;name = %s,age = %d,sex = %c\n&quot;, tmp.name, tmp.age, tmp.sex)
+}
+
+func main() {
+	s := &amp;Student{Person{&quot;jiajia&quot;, 18, 'm'}, 2, &quot;sz&quot;}
+	s.PrintInfo()
+}
+</code></pre>
+<h4 id="方法的重写">方法的重写</h4>
+<pre><code class="language-/usr/bin/env">type Person struct {
+	name string
+	age  int
+	sex  byte
+}
+
+//Person类型，实现了一个打印输出的方法
+func (tmp *Person) PrintInfo() {
+	fmt.Printf(&quot;name = %s,age = %d,sex = %c\n&quot;, tmp.name, tmp.age, tmp.sex)
+}
+
+//有个学生，继承了Person字段，成员和方法都继承了
+type Student struct {
+	Person //匿名字段
+	id     int
+	addr   string
+}
+
+//这个学生也有自己的一个方法，这个方法和Person的方法同名，这种方法叫做重写
+func (stu Student) PrintInfo() {
+	fmt.Printf(&quot;name = %s,age = %d,sex = %c,id = %d,addr = %s\n&quot;, stu.name, stu.age, stu.sex, stu.id, stu.addr)
+}
+
+func main() {
+	s := &amp;Student{Person{&quot;jiajia&quot;, 18, 'm'}, 2, &quot;sz&quot;}
+	//就近原则
+	s.PrintInfo() //调用的就是Student的方法
+	//显示调用即可调用为Person方法
+	//调用的就是Person的方法
+	s.Person.PrintInfo()
+}
+</code></pre>
+<p>输出结果:</p>
+<pre><code>name = jiajia,age = 18,sex = m,id = 2,addr = sz
+name = jiajia,age = 18,sex = m
+</code></pre>
+<h4 id="方法值和方法表达式">方法值和方法表达式</h4>
+<pre><code class="language-/usr/bin/env">type Person struct {
+	name string
+	age  int
+	sex  byte
+}
+
+func (p Person) SetInfoValue() {
+	fmt.Printf(&quot;SetInfoValue:%p,%v\n&quot;, &amp;p, p)
+}
+
+func (p *Person) SetInfoPointer() {
+	fmt.Printf(&quot;SetInfoPointer:%p,%v\n&quot;, p, p)
+}
+
+func main() {
+	p := Person{&quot;jiajia&quot;, 18, 'm'}
+
+	//方法值,隐藏了接收者
+	f := p.SetInfoPointer
+	f()
+	//方法表达式
+	f1 := (Person).SetInfoValue
+	f1(p) //显式的把接收者传递过去 ==============》等价于p.SetInfoValue()
+
+	f2 := (*Person).SetInfoPointer
+	f2(&amp;p) //显式的把接收者传递过去 ==============》等价于p.SetInfoPointer()
+}
+</code></pre>
+<h2 id="colorred多态"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">多</mi><mi mathvariant="normal">态</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{多态}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">多</span><span class="mord cjk_fallback" style="color:red;">态</span></span></span></span></span></h2>
+<h4 id="接口的定义和实现">接口的定义和实现</h4>
+<pre><code class="language-/usr/bin/env">type Humaner interface {
+	//方法，只有声明，没有实现。由别的类型(自定义类型)实现
+	sayhi()
+}
+
+type Student struct {
+	name string
+	id   int
+}
+
+//实现学生的方法
+func (stu *Student) sayhi() {
+	fmt.Printf(&quot;stu:%s,%d\n&quot;, stu.name, stu.id)
+}
+
+type Teacher struct {
+	addr string
+	lg   string
+}
+
+//实现老师的方法
+func (tea *Teacher) sayhi() {
+	fmt.Printf(&quot;tea:%s,%s\n&quot;, tea.addr, tea.lg)
+}
+
+type Str string
+
+//实现Str的方法
+func (tmp *Str) sayhi() {
+	fmt.Printf(&quot;hello %s\n&quot;, *tmp)
+}
+
+func main() {
+	//定义接口类型的变量
+	var i Humaner
+
+	//只要实现了此接口方法的类型，那么这个类型的变量(接收者类型)就可以赋值给i
+
+	stu := &amp;Student{&quot;jiajia&quot;, 2} //取Student的地址赋值给stu
+	i = stu                      //stu赋值给i
+	i.sayhi()                    //i是接口类型，可以调用方法
+
+	tea := &amp;Teacher{&quot;SZ&quot;, &quot;GO&quot;}
+	i = tea
+	i.sayhi()
+
+	var str Str = &quot;jiajia&quot;
+	i = &amp;str
+	i.sayhi()
+
+}
+</code></pre>
+<p>输出结果：</p>
+<pre><code>stu:jiajia,2
+tea:SZ,GO
+hello jiajia
+</code></pre>
+<h4 id="多态的使用">多态的使用</h4>
+<pre><code class="language-/usr/bin/env">type Humaner interface {
+	//方法，只有声明，没有实现。由别的类型(自定义类型)实现
+	sayhi()
+}
+
+type Student struct {
+	name string
+	id   int
+}
+
+//实现学生的方法
+func (stu *Student) sayhi() {
+	fmt.Printf(&quot;stu:%s,%d\n&quot;, stu.name, stu.id)
+}
+
+type Teacher struct {
+	addr string
+	lg   string
+}
+
+//实现老师的方法
+func (tea *Teacher) sayhi() {
+	fmt.Printf(&quot;tea:%s,%s\n&quot;, tea.addr, tea.lg)
+}
+
+type Str string
+
+//实现Str的方法
+func (tmp *Str) sayhi() {
+	fmt.Printf(&quot;hello %s\n&quot;, *tmp)
+}
+
+//定义一个普通的函数，函数的参数为接口类型
+//只有一个函数，可以有不同表现，多态
+func myfunc(i Humaner) {
+	i.sayhi()
+}
+
+func main() {
+	stu := &amp;Student{&quot;jiajia&quot;, 2}
+	tea := &amp;Teacher{&quot;SZ&quot;, &quot;Go&quot;}
+	var str Str = &quot;jiajia&quot;
+	//调用同一个函数，不同表现，多种形态
+	myfunc(stu)
+	myfunc(tea)
+	myfunc(&amp;str)
+	//定义一个切片
+	x := make([]Humaner, 3)
+	x[0] = stu
+	x[1] = tea
+	x[2] = &amp;str
+	for _, i := range x {
+		i.sayhi()
+	}
+}
+</code></pre>
+<h4 id="接口的继承">接口的继承</h4>
+<pre><code class="language-/usr/bin/env">type Humaner interface {
+	sing()
+}
+
+type Personer interface {
+	Humaner //匿名字段,继承了sing()
+	run(length int)
+}
+
+type Student struct {
+	name string
+	id   int
+}
+
+func (stu *Student) sing() {
+	fmt.Println(&quot;stu会唱歌&quot;)
+}
+
+func (stu *Student) run(length int) {
+	fmt.Printf(&quot;stu会跑%d米\n&quot;, length)
+}
+
+func main() {
+	var i Personer
+	stu := &amp;Student{&quot;jiajia&quot;, 2}
+	i = stu
+	i.run(100)
+	pfunc := i.sing //继承过来的方法，并且使用方法值隐藏接收者变量的传递
+	pfunc()
+}
+</code></pre>
+<h4 id="空接口">空接口</h4>
+<p>空接口(interface{})不包含任何的方法，正因为如此，所有的类型都实现了空接口，因此空接口可以存储任意类型的数值。</p>
+<pre><code class="language-/usr/bin/env">func test(args ...interface{}) {
+	fmt.Printf(&quot;我是接口类型:%T\n值为:%v&quot;, args, args)
+}
+
+func main() {
+	//空接口，万能类型,能够保存任意类型的值
+	var i interface{} = 1
+	fmt.Println(&quot;i = &quot;, i)          //i =  1
+	fmt.Printf(&quot;i type is %T\n&quot;, i) //i type is int
+
+	i = true
+	fmt.Println(&quot;i = &quot;, i)          //i =  true
+	fmt.Printf(&quot;i type is %T\n&quot;, i) //i type is bool
+
+	test(&quot;jiajia&quot;, 1, 2, 'm')
+}
+</code></pre>
+<h4 id="类型断言类型查询">类型断言(类型查询)</h4>
+<p>反向知道这个变量存储的是什么类型的变量<br>
+if方法：</p>
+<pre><code class="language-/usr/bin/env">type Student struct {
+	name string
+	id   int
+}
+
+func main() {
+	i := make([]interface{}, 3)
+	i[0] = 1
+	i[1] = &quot;hello go&quot;
+	i[2] = Student{&quot;jiajia&quot;, 2}
+
+	//类型查询，类型断言
+	//第一个返回的是下标，第二个返回的是值
+	for index, data := range i {
+		//第一个返回的是值，第二个返回的是判断结果的真假
+		if value, ok := data.(int); ok == true {
+			fmt.Printf(&quot;i[%d]的类型为int,值为%d\n&quot;, index, value)
+		} else if value, ok := data.(string); ok == true {
+			fmt.Printf(&quot;i[%d]的类型为string,值为%s\n&quot;, index, value)
+		} else if value, ok := data.(Student); ok == true {
+			fmt.Printf(&quot;i[%d]Student,值为name = %s,id = %d\n&quot;, index, value.name, value.id)
+		}
+	}
+}
+</code></pre>
+<p>switch方法：</p>
+<pre><code class="language-/usr/bin/env">type Student struct {
+	name string
+	id   int
+}
+
+func main() {
+	i := make([]interface{}, 3)
+	i[0] = 1
+	i[1] = &quot;hello go&quot;
+	i[2] = Student{&quot;jiajia&quot;, 2}
+	for index, data := range i {
+		//需要注意的是data.(type)
+		switch value := data.(type) {
+		case int:
+			fmt.Printf(&quot;i[%d]的类型为int,值为%d\n&quot;, index, value)
+		case string:
+			fmt.Printf(&quot;i[%d]的类型为string,值为%s\n&quot;, index, value)
+		case Student:
+			fmt.Printf(&quot;i[%d]Student,值为name = %s,id = %d\n&quot;, index, value.name, value.id)
+		}
+	}
+}
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jiajiaba.github.io/tag/AuSlUrRyP" class="tag">
+                    Go
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jiajiaba.github.io/post/struct">
+                  <h3 class="post-title">
+                    Go语言基础之结构体
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'ddea2cdc460d0967693e',
+        clientSecret: 'dd260d8246709a16d4e788d2b03396a25bb2115c',
+        repo: 'jiajiaba.github.io',
+        owner: 'jiajiaba',
+        admin: ['jiajiaba'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
