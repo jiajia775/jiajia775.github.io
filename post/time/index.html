@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Go语言基础之time包 | JIAJIA</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jiajiaba.github.io/favicon.ico?v=1567758849821">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jiajiaba.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jiajiaba.github.io">
+        <img src="https://jiajiaba.github.io/images/avatar.png?v=1567758849821" class="site-logo">
+        <h1 class="site-title">JIAJIA</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jiajiaba.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Go语言基础之time包</h2>
+            <div class="post-date">2019-09-06</div>
+            
+              <div class="feature-container" style="background-image: url('https://jiajiaba.github.io/post-images/time.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>Go语言内置的time包的基本用法。</p>
+<!-- more -->
+<h2 id="colorredtime包"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi>t</mi><mi>i</mi><mi>m</mi><mi>e</mi><mi mathvariant="normal">包</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{time包}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord mathdefault" style="color:red;">t</span><span class="mord mathdefault" style="color:red;">i</span><span class="mord mathdefault" style="color:red;">m</span><span class="mord mathdefault" style="color:red;">e</span><span class="mord cjk_fallback" style="color:red;">包</span></span></span></span></span></h2>
+<p>time包提供了时间的显示和测量用的函数。日历的计算采用的是公历</p>
+<h4 id="时间类型">时间类型</h4>
+<p>time.Time类型表示时间。<br>
+可以通过time.Now()函数获取当前的时间对象</p>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+)
+
+func main() {
+	now := time.Now() //获取当前时间
+	fmt.Println(now)  //2019-09-06 15:18:44.253201 +0800 CST m=+0.006002601
+
+	year := now.Year()            //年
+	month := now.Month()          //月
+	day := now.Day()              //日
+	fmt.Println(year, month, day) //2019 September 6
+}
+</code></pre>
+<h4 id="时间戳">时间戳</h4>
+<p>时间戳是自1970年1月1日（08: 00 :00GMT）至当前时间的总毫秒数。它也被称为Unix时间戳（UnixTimestamp）。</p>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+)
+
+func main() {
+	now := time.Now()    //获取当前时间
+	t1 := now.Unix()     //时间戳
+	t2 := now.UnixNano() //纳秒时间戳
+	fmt.Println(t1)      //1567755290
+	fmt.Println(t2)      //1567755290965926000
+
+	//将时间戳转换为时间格式
+	t3 := time.Unix(t1, 0) //第一个参数当前时间戳，第二个参数要添加的时间戳。
+	fmt.Println(t3)        //2019-09-06 15:34:50 +0800 CST
+}
+</code></pre>
+<h4 id="时间间隔">时间间隔</h4>
+<p>time.Duration是time包定义的一个类型，它代表两个时间点之间经过的时间，以纳秒为单位。time.Duration表示一段时间间隔</p>
+<pre><code class="language-/usr/bin/env">func main() {
+	fmt.Println(1)
+	time.Sleep(5) //5这个单位是纳秒
+	fmt.Println(2)
+	time.Sleep(5 * time.Second) //这个才是间隔5秒
+	fmt.Println(3)
+
+	//如果定义了一个变量
+	n := 5
+	time.Sleep(time.Duration(n) * time.Second) //需要强制转换
+	fmt.Println(&quot;over&quot;)
+}
+</code></pre>
+<h4 id="时间操作">时间操作</h4>
+<pre><code class="language-/usr/bin/env">func main() {
+	//当前时间加一个小时
+	now := time.Now()
+	later := now.Add(time.Hour)
+	fmt.Println(now)   //2019-09-06 15:50:27.4478881 +0800 CST m=+0.002008301
+	fmt.Println(later) //2019-09-06 16:50:27.4478881 +0800 CST m=+3600.002008301
+
+	//时间相减
+	t := later.Sub(now)
+	fmt.Println(t) //1h0m0s
+}
+</code></pre>
+<h4 id="定时器">定时器</h4>
+<p>使用time.Tick(时间间隔)来设置定时器，定时器的本质上是一个通道（channel）。</p>
+<pre><code class="language-/usr/bin/env">func main() {
+	for t := range time.Tick(time.Second) { //定义一个1秒间隔的定时器
+		fmt.Println(t) //每秒都会执行的任务
+	}
+}
+</code></pre>
+<h4 id="时间格式化">时间格式化</h4>
+<p>时间类型有一个自带的方法Format进行格式化，需要注意的是Go语言中格式化时间模板不是常见的Y-m-d H:M:S而是使用Go的诞生时间2006年1月2号15点04分（记忆口诀为2006 1 2 3 4）。</p>
+<pre><code class="language-/usr/bin/env">func main() {
+	now := time.Now()
+	fmt.Println(now)
+
+	//时间格式化：Y      m   d   H   M   S
+	//GO语言中   2006   01  02  15  04  05
+	t1 := now.Format(&quot;2006-01-02 15-04-05&quot;)
+	fmt.Println(t1) //2019-09-06 16-04-30
+
+	t2 := now.Format(&quot;2006.01.02 15:04:05&quot;)
+	fmt.Println(t2) //2019.09.06 16:04:30
+}
+</code></pre>
+<h4 id="解析字符串格式">解析字符串格式</h4>
+<pre><code class="language-/usr/bin/env">func main() {
+	now := time.Now()
+	fmt.Println(now)
+	// 加载时区
+	loc, err := time.LoadLocation(&quot;Asia/Shanghai&quot;)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	// 按照指定时区和指定格式解析字符串时间
+	// 采用时区的方法
+	timeObj, err := time.ParseInLocation(&quot;2006/01/02 15: 04 : 05&quot;, &quot;2019/08/04 14: 15 : 20&quot;, loc)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(timeObj)
+
+	// 没有采用时区的方法
+	timeObj2, err := time.Parse(&quot;2006/01/02 15:04:05&quot;, &quot;2019/08/04 14:15:20&quot;)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(timeObj2)
+}
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jiajiaba.github.io/tag/AuSlUrRyP" class="tag">
+                    Go
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jiajiaba.github.io/post/document">
+                  <h3 class="post-title">
+                    Go语言基础之文件操作
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'ddea2cdc460d0967693e',
+        clientSecret: 'dd260d8246709a16d4e788d2b03396a25bb2115c',
+        repo: 'jiajiaba.github.io',
+        owner: 'jiajiaba',
+        admin: ['jiajiaba'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
