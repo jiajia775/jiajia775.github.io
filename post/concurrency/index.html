@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Go语言基础之并发 | JIAJIA</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jiajiaba.github.io/favicon.ico?v=1567923226229">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jiajiaba.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://jiajiaba.github.io">
+        <img src="https://jiajiaba.github.io/images/avatar.png?v=1567923226229" class="site-logo">
+        <h1 class="site-title">JIAJIA</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jiajiaba.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Go语言基础之并发</h2>
+            <div class="post-date">2019-09-07</div>
+            
+              <div class="feature-container" style="background-image: url('https://jiajiaba.github.io/post-images/concurrency.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>指在同一时刻只能有一条指令执行，但多个进程指令被快速的轮换执行，使得在宏观上具有多个进程同时执行的效果，但在微观上并不是同时执行的，只是把时间分成若干段，使多个进程快速交替的执行。</p>
+ <!-- more -->
+<h2 id="colorred并行和并发的区别"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">并</mi><mi mathvariant="normal">行</mi><mi mathvariant="normal">和</mi><mi mathvariant="normal">并</mi><mi mathvariant="normal">发</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">区</mi><mi mathvariant="normal">别</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{并行和并发的区别}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">并</span><span class="mord cjk_fallback" style="color:red;">行</span><span class="mord cjk_fallback" style="color:red;">和</span><span class="mord cjk_fallback" style="color:red;">并</span><span class="mord cjk_fallback" style="color:red;">发</span><span class="mord cjk_fallback" style="color:red;">的</span><span class="mord cjk_fallback" style="color:red;">区</span><span class="mord cjk_fallback" style="color:red;">别</span></span></span></span></span></h2>
+<h4 id="并行parallel指在同一时刻有多条指令在多个处理器上同时执行">并行(parallel)：指在同一时刻，有多条指令在多个处理器上同时执行。</h4>
+<p><img src="https://jiajiaba.github.io/post-images/1567838533900.jpg" alt=""></p>
+<h4 id="并发concurrency指在同一时刻只能有一条指令执行但多个进程指令被快速的轮换执行使得在宏观上具有多个进程同时执行的效果但在微观上并不是同时执行的只是把时间分成若干段使多个进程快速交替的执行">并发(concurrency)：指在同一时刻只能有一条指令执行，但多个进程指令被快速的轮换执行，使得在宏观上具有多个进程同时执行的效果，但在微观上并不是同时执行的，只是把时间分成若干段，使多个进程快速交替的执行。</h4>
+<p><img src="https://jiajiaba.github.io/post-images/1567838559318.jpg" alt=""><br>
+并行就相当于两个队列同时使用两台咖啡机<br>
+并发就相当于两个队列交替使用一台咖啡机<br>
+<img src="https://jiajiaba.github.io/post-images/1567838628453.png" alt=""></p>
+<h2 id="colorredgoroutine"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi>g</mi><mi>o</mi><mi>r</mi><mi>o</mi><mi>u</mi><mi>t</mi><mi>i</mi><mi>n</mi><mi>e</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{goroutine}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord" style="color:red;"><span class="mord mathdefault" style="margin-right:0.03588em;color:red;">g</span><span class="mord mathdefault" style="color:red;">o</span><span class="mord mathdefault" style="margin-right:0.02778em;color:red;">r</span><span class="mord mathdefault" style="color:red;">o</span><span class="mord mathdefault" style="color:red;">u</span><span class="mord mathdefault" style="color:red;">t</span><span class="mord mathdefault" style="color:red;">i</span><span class="mord mathdefault" style="color:red;">n</span><span class="mord mathdefault" style="color:red;">e</span></span></span></span></span></h2>
+<h4 id="什么是goroutine">什么是goroutine？</h4>
+<p>goroutine是Go并行设计的核心。goroutine说到底其实就是协程，但是它比线程更小，十几个goroutine可能体现在底层就是五六个线程，Go语言内部帮你实现了这些goroutine之间的内存共享。执行goroutine只需极少的栈内存(大概是4~5KB)，当然会根据相应的数据伸缩。也正因为如此，可同时运行成千上万个并发任务。goroutine比thread更易用、更高效、更轻便。</p>
+<h4 id="创建goroutine">创建goroutine</h4>
+<p>只需在函数调⽤语句前添加 go 关键字，就可创建并发执⾏单元。开发⼈员无需了解任何执⾏细节，调度器会自动将其安排到合适的系统线程上执行。<br>
+在并发编程里，我们通常想讲一个过程切分成几块，然后让每个goroutine各自负责一块工作。当一个程序启动时，其主函数即在一个单独的goroutine中运行，我们叫它main goroutine。新的goroutine会用go语句来创建。</p>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+)
+
+func newTask() {
+	for {
+		fmt.Println(&quot;this is newTask&quot;)
+		time.Sleep(time.Second)
+	}
+}
+
+func main() {
+	go newTask() //新建一个协程,新建一个任务,必须写在前面。
+	for {
+		fmt.Println(&quot;this is main&quot;)
+		time.Sleep(time.Second)
+	}
+}
+</code></pre>
+<p>输出结果：</p>
+<pre><code>this is main
+this is newTask
+this is newTask
+this is main
+this is newTask
+this is main
+...
+</code></pre>
+<h4 id="主goroutine退出其他的goroutine也会跟着退出">主goroutine退出，其他的goroutine也会跟着退出</h4>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+)
+
+// 主协程先退出了，其他子协程也要跟着退出
+func main() {
+
+	go func() {
+		i := 0
+		for {
+			i++
+			fmt.Println(&quot;func i = &quot;, i)
+			time.Sleep(time.Second)
+		}
+	}() //别忘了自身调用
+
+	i := 0
+	for {
+		i++
+		fmt.Println(&quot;main i = &quot;, i)
+		time.Sleep(time.Second)
+		if i == 2 {
+			break
+		}
+	}
+}
+</code></pre>
+<p>输出结果：</p>
+<pre><code>main i =  1
+func i =  1
+main i =  2
+func i =  2
+</code></pre>
+<h2 id="colorredruntime包"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi>r</mi><mi>u</mi><mi>n</mi><mi>t</mi><mi>i</mi><mi>m</mi><mi>e</mi><mi mathvariant="normal">包</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{runtime包}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord mathdefault" style="margin-right:0.02778em;color:red;">r</span><span class="mord mathdefault" style="color:red;">u</span><span class="mord mathdefault" style="color:red;">n</span><span class="mord mathdefault" style="color:red;">t</span><span class="mord mathdefault" style="color:red;">i</span><span class="mord mathdefault" style="color:red;">m</span><span class="mord mathdefault" style="color:red;">e</span><span class="mord cjk_fallback" style="color:red;">包</span></span></span></span></span></h2>
+<h4 id="gosched">Gosched</h4>
+<p>runtime.Gosched() 用于让出CPU时间片，让出当前goroutine的执行权限，调度器安排其他等待的任务运行，并在下次某个时候从该位置恢复执行。<br>
+这就像跑接力赛，A跑了一会碰到代码runtime.Gosched() 就把接力棒交给B了，A歇着了，B继续跑。</p>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;runtime&quot;
+)
+
+func main() {
+
+	go func() {
+		for i := 0; i &lt; 5; i++ {
+			fmt.Println(&quot;BBB&quot;)
+		}
+	}()
+
+	for i := 0; i &lt; 3; i++ {
+		//让出时间片，先让别的协程执行，执行完再回来。
+		runtime.Gosched()
+		fmt.Println(&quot;AAA&quot;)
+	}
+}
+</code></pre>
+<p>输出结果：</p>
+<pre><code>BBB
+BBB
+BBB
+BBB
+BBB
+AAA
+AAA
+AAA
+</code></pre>
+<h4 id="goexit">Goexit</h4>
+<p>调用 runtime.Goexit() 将立即终止当前 goroutine 执⾏，调度器确保所有已注册 defer延迟调用被执行。</p>
+<ol>
+<li>先来看看没有调度的情况，代码如下：</li>
+</ol>
+<pre><code class="language-/usr/bin/env">package main
+
+import &quot;fmt&quot;
+
+func test() {
+	defer fmt.Println(&quot;ccccccccccccc&quot;)
+	fmt.Println(&quot;ddddddddddddd&quot;)
+}
+
+func main() {
+	go func() {
+		fmt.Println(&quot;aaaaaaaaaaaaa&quot;)
+		test()
+		fmt.Println(&quot;bbbbbbbbbbbbb&quot;)
+	}()
+
+	//特地写一个死循环，目的不让主协程退出
+	for {
+	}
+}
+</code></pre>
+<p>输出结果：</p>
+<pre><code>aaaaaaaaaaaaa
+ddddddddddddd
+ccccccccccccc
+bbbbbbbbbbbbb
+
+</code></pre>
+<ol start="2">
+<li>再来看看看调度了的情况。</li>
+</ol>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;runtime&quot;
+)
+
+func test() {
+	defer fmt.Println(&quot;cccccccccccc&quot;)
+	//终止此函数
+	// return
+
+	//终止所在的协程
+	runtime.Goexit()
+
+	fmt.Println(&quot;dddddddddddd&quot;)
+}
+
+func main() {
+	go func() {
+		fmt.Println(&quot;aaaaaaaaaaaaa&quot;)
+		test()
+		fmt.Println(&quot;bbbbbbbbbbbbb&quot;)
+	}()
+
+	//特地写一个死循环，目的不让主协程退出
+	for {
+	}
+}
+</code></pre>
+<p>输出：</p>
+<pre><code>aaaaaaaaaaaaa
+cccccccccccc
+</code></pre>
+<p>需要注意的是：案例中有return，return返回的则是a,c,b(简写)</p>
+<h4 id="gomaxprocs">GOMAXPROCS</h4>
+<p>调用 runtime.GOMAXPROCS() 用来设置可以并行计算的CPU核数的最大值，并返回之前的值。</p>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;runtime&quot;
+)
+
+func main() {
+	n := runtime.GOMAXPROCS(2) //指定核数运行
+	fmt.Print(&quot;n = &quot;, n)
+	for {
+		go fmt.Print(0)
+		fmt.Print(1)
+	}
+}
+</code></pre>
+<p>输出：<br>
+<code>111100000101100111111100000001111111100000000111111111000000000111111111100000000001011111111111100000000000011111111111110000000000000111111111111110000000000000011111100000011111110000000111111111111000000000000111111111111111110000000000000000011100010111111111000000000111111111000000000111111111100000000001111111111111111111111111111100000000000000000000000000000101100111111111111111111111111111111110000000000000000000000000000000011111111111111111111111</code></p>
+<h4 id="多任务竞争问题">多任务竞争问题</h4>
+<p>例如有一个打印机，两个人都需要使用，就会产生竞争问题，示例代码如下：</p>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+)
+
+// 打印机
+func Printer(str string) {
+	for _, data := range str {
+		fmt.Printf(&quot;%c&quot;, data)
+		time.Sleep(time.Second)
+	}
+	fmt.Println(&quot;\n&quot;)
+}
+
+// 使用打印机的第一个人
+func Persion1() {
+	Printer(&quot;hello&quot;)
+}
+
+// 使用打印机的第二个人
+func Persion2() {
+	Printer(&quot;world&quot;)
+
+}
+
+func main() {
+	go Persion1()
+	go Persion2()
+
+	//死循环,目的是让主协程无法退出
+	for {
+
+	}
+}
+</code></pre>
+<p>输出结果：<br>
+<code>wheorlllod</code></p>
+<h2 id="colorredchannel"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi>c</mi><mi>h</mi><mi>a</mi><mi>n</mi><mi>n</mi><mi>e</mi><mi>l</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{channel}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord mathdefault" style="color:red;">c</span><span class="mord mathdefault" style="color:red;">h</span><span class="mord mathdefault" style="color:red;">a</span><span class="mord mathdefault" style="color:red;">n</span><span class="mord mathdefault" style="color:red;">n</span><span class="mord mathdefault" style="color:red;">e</span><span class="mord mathdefault" style="margin-right:0.01968em;color:red;">l</span></span></span></span></span></h2>
+<p>用于多个 goroutine 通讯。其内部实现了同步，确保并发安全。<br>
+定义一个channel时，也需要定义发送到channel的值的类型。channel可以使用内置的make()函数来创建：</p>
+<pre><code>make(chan type)
+make(chan type,capacity)
+</code></pre>
+<p>以上两种区别在于有无缓冲区，稍后做介绍。<br>
+利用channel解决打印机竞争的问题</p>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+)
+//创建通道
+var ch = make(chan int)
+
+func Printer(str string) {
+	for _, data := range str {
+		fmt.Printf(&quot;%c&quot;, data)
+		time.Sleep(time.Second)
+	}
+	fmt.Println(&quot;\n&quot;)
+}
+
+// 多任务执行，打印完再存数据到通道里面
+func Persion1() {
+	Printer(&quot;hello&quot;)
+	ch &lt;- 666
+}
+
+// 多任务执行，通道会取数据，若通道里面没有数据，则会阻塞。
+func Persion2() {
+	&lt;-ch
+	Printer(&quot;world&quot;)
+
+}
+
+func main() {
+	go Persion1()
+	go Persion2()
+
+	for {
+
+	}
+}
+</code></pre>
+<p>再举例：</p>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+)
+
+func main() {
+	var ch = make(chan string)
+	go func() {
+		defer fmt.Println(&quot;子协程调用完毕&quot;)
+		for i := 0; i &lt; 2; i++ {
+			fmt.Println(&quot;i = &quot;, i)
+			time.Sleep(time.Second)
+		}
+		ch &lt;- &quot;子协程执行完毕&quot;
+	}()
+
+	str := &lt;-ch
+	fmt.Println(str)
+	fmt.Println(&quot;主协程结束&quot;)
+}
+</code></pre>
+<p>输出：</p>
+<pre><code>子协程正在运行
+子协程调用完毕
+子协程执行完毕
+主协程执行完毕
+</code></pre>
+<h4 id="无缓冲区的channel">无缓冲区的channel</h4>
+<p>无缓冲的通道（unbuffered channel）是指在接收前没有能力保存任何值的通道。</p>
+<p>这种类型的通道要求发送 goroutine 和接收 goroutine 同时准备好，才能完成发送和接收操作。如果两个goroutine没有同时准备好，通道会导致先执行发送或接收操作的 goroutine 阻塞等待。</p>
+<p>这种对通道进行发送和接收的交互行为本身就是同步的。其中任意一个操作都无法离开另一个操作单独存在。<br>
+<img src="https://jiajiaba.github.io/post-images/1567909155237.png" alt=""></p>
+<ul>
+<li>在第 1 步，两个 goroutine 都到达通道，但哪个都没有开始执行发送或者接收。</li>
+<li>在第 2 步，左侧的 goroutine 将它的手伸进了通道，这模拟了向通道发送数据的行为。这时，这个 goroutine 会在通道中被锁住，直到交换完成。</li>
+<li>在第 3 步，右侧的 goroutine 将它的手放入通道，这模拟了从通道里接收数据。这个 goroutine 一样也会在通道中被锁住，直到交换完成。</li>
+<li>在第 4 步和第 5 步，进行交换，并最终，在第 6 步，两个 goroutine 都将它们的手从通道里拿出来，这模拟了被锁住的 goroutine 得到释放。两个 goroutine 现在都可以去做别的事情了。<br>
+示例代码：</li>
+</ul>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+)
+
+func main() {
+	c := make(chan int, 0) //无缓冲的通道
+
+	//内置函数 len 返回未被读取的缓冲元素数量， cap 返回缓冲区大小
+	fmt.Printf(&quot;len(c)=%d, cap(c)=%d\n&quot;, len(c), cap(c))
+
+	go func() {
+		defer fmt.Println(&quot;子协程结束&quot;)
+
+		for i := 0; i &lt; 3; i++ {
+			c &lt;- i
+			fmt.Printf(&quot;子协程正在运行[%d]: len(c)=%d, cap(c)=%d\n&quot;, i, len(c), cap(c))
+		}
+	}()
+
+	time.Sleep(2 * time.Second) //延时2s
+
+	for i := 0; i &lt; 3; i++ {
+		num := &lt;-c //从c中接收数据，并赋值给num
+		fmt.Println(&quot;num = &quot;, num)
+	}
+
+	fmt.Println(&quot;main协程结束&quot;)
+}
+</code></pre>
+<p>输出：</p>
+<pre><code>len(c)=0, cap(c)=0
+子协程正在运行[0]: len(c)=0, cap(c)=0
+num =  0
+num =  1
+子协程正在运行[1]: len(c)=0, cap(c)=0
+子协程正在运行[2]: len(c)=0, cap(c)=0
+子协程结束
+num =  2
+main协程结束
+</code></pre>
+<p>此输出结果将会在第一行结果出来之后阻塞，原因是存进管道的时候阻塞了，所以到达sleep两秒的代码。还需注意，无缓冲通道的len和cap都为0.</p>
+<h4 id="有缓冲的通道buffered-channel">有缓冲的通道（buffered channel）</h4>
+<p>是一种在被接收前能存储一个或者多个值的通道。</p>
+<p>这种类型的通道并不强制要求 goroutine 之间必须同时完成发送和接收。通道会阻塞发送和接收动作的条件也会不同。只有在通道中没有要接收的值时，接收动作才会阻塞。只有在通道没有可用缓冲区容纳被发送的值时，发送动作才会阻塞。</p>
+<p>这导致有缓冲的通道和无缓冲的通道之间的一个很大的不同：无缓冲的通道保证进行发送和接收的 goroutine 会在同一时间进行数据交换；有缓冲的通道没有这种保证。<br>
+<img src="https://jiajiaba.github.io/post-images/1567910289527.png" alt=""></p>
+<ul>
+<li>在第 1 步，右侧的 goroutine 正在从通道接收一个值。</li>
+<li>在第 2 步，右侧的这个 goroutine独立完成了接收值的动作，而左侧的 goroutine 正在发送一个新值到通道里。</li>
+<li>在第 3 步，左侧的goroutine 还在向通道发送新值，而右侧的 goroutine 正在从通道接收另外一个值。这个步骤里的两个操作既不是同步的，也不会互相阻塞。</li>
+<li>最后，在第 4 步，所有的发送和接收都完成，而通道里还有几个值，也有一些空间可以存更多的值。</li>
+</ul>
+<pre><code class="language-/usr/bin/env">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+)
+
+func main() {
+	c := make(chan int, 3) //无缓冲的通道
+
+	//内置函数 len 返回未被读取的缓冲元素数量， cap 返回缓冲区大小
+	fmt.Printf(&quot;len(c)=%d, cap(c)=%d\n&quot;, len(c), cap(c))
+
+	go func() {
+		defer fmt.Println(&quot;子协程结束&quot;)
+
+		for i := 0; i &lt; 3; i++ {
+			c &lt;- i
+			fmt.Printf(&quot;子协程正在运行[%d]: len(c)=%d, cap(c)=%d\n&quot;, i, len(c), cap(c))
+		}
+	}()
+
+	time.Sleep(2 * time.Second) //延时2s
+
+	for i := 0; i &lt; 3; i++ {
+		num := &lt;-c //从c中接收数据，并赋值给num
+		fmt.Println(&quot;num = &quot;, num)
+	}
+
+	fmt.Println(&quot;main协程结束&quot;)
+}
+</code></pre>
+<p>输出结果：</p>
+<pre><code>len(c)=0, cap(c)=3
+子协程正在运行[0]: len(c)=1, cap(c)=3
+子协程正在运行[1]: len(c)=2, cap(c)=3
+子协程正在运行[2]: len(c)=3, cap(c)=3
+子协程结束
+num =  0
+num =  1
+num =  2
+main协程结束
+</code></pre>
+<h4 id="关闭管道">关闭管道</h4>
+<pre><code class="language-/usr/bin/env">package main
+
+import &quot;fmt&quot;
+
+func main() {
+	ch := make(chan int)
+	go func() {
+		for i := 0; i &lt; 5; i++ {
+			ch &lt;- i //往通道写数据
+		}
+		//不需要再写数据时，关闭channel
+		close(ch)
+	}()
+
+	for {
+		//如果ok==true说明管道没有关闭
+		if num, ok := &lt;-ch; ok == true {
+			fmt.Println(&quot;num = &quot;, num)
+		} else { //管道关闭
+			break
+		}
+	}
+}
+</code></pre>
+<p>输出结果：</p>
+<pre><code>num =  0
+num =  1
+num =  2
+num =  3
+num =  4
+</code></pre>
+<p>也可以使用range的用法，示例如下：</p>
+<pre><code class="language-/usr/bin/env">func main() {
+	ch := make(chan int)
+	go func() {
+		for i := 0; i &lt; 5; i++ {
+			ch &lt;- i //往通道写数据
+		}
+		//不需要再写数据时，关闭channel
+		close(ch)
+	}()
+
+	for num := range ch {
+		fmt.Println(&quot;num = &quot;, num)
+	}
+</code></pre>
+<p>}</p>
+<h4 id="单方向的channnel">单方向的channnel</h4>
+<pre><code class="language-/usr/bin/env">func main() {
+	ch := make(chan int)
+
+	//双向通道能够隐式转换为单向通道
+	var whirech chan&lt;- int = ch
+	whirech &lt;- 666 //写
+
+	var readch &lt;-chan int = ch
+	&lt;-readch //读
+}
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://jiajiaba.github.io/tag/AuSlUrRyP" class="tag">
+                    Go
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://jiajiaba.github.io/post/time">
+                  <h3 class="post-title">
+                    Go语言基础之time包
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'ddea2cdc460d0967693e',
+        clientSecret: 'dd260d8246709a16d4e788d2b03396a25bb2115c',
+        repo: 'jiajiaba.github.io',
+        owner: 'jiajiaba',
+        admin: ['jiajiaba'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
