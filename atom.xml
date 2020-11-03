@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://jiajiaba.github.io</id>
+    <id>https://jiajia775.github.io</id>
     <title>JIAJIA</title>
-    <updated>2019-09-08T06:17:13.981Z</updated>
+    <updated>2020-11-03T16:20:26.076Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://jiajiaba.github.io"/>
-    <link rel="self" href="https://jiajiaba.github.io/atom.xml"/>
+    <link rel="alternate" href="https://jiajia775.github.io"/>
+    <link rel="self" href="https://jiajia775.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
-    <logo>https://jiajiaba.github.io/images/avatar.png</logo>
-    <icon>https://jiajiaba.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, JIAJIA</rights>
+    <logo>https://jiajia775.github.io/images/avatar.png</logo>
+    <icon>https://jiajia775.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2020, JIAJIA</rights>
     <entry>
         <title type="html"><![CDATA[Go语言基础之并发]]></title>
-        <id>https://jiajiaba.github.io/post/concurrency</id>
-        <link href="https://jiajiaba.github.io/post/concurrency">
+        <id>https://jiajia775.github.io/post/concurrency</id>
+        <link href="https://jiajia775.github.io/post/concurrency">
         </link>
         <updated>2019-09-07T06:22:48.000Z</updated>
         <summary type="html"><![CDATA[<p>指在同一时刻只能有一条指令执行，但多个进程指令被快速的轮换执行，使得在宏观上具有多个进程同时执行的效果，但在微观上并不是同时执行的，只是把时间分成若干段，使多个进程快速交替的执行。</p>
@@ -22,12 +22,12 @@
  <!-- more -->
 <h2 id="colorred并行和并发的区别"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">并</mi><mi mathvariant="normal">行</mi><mi mathvariant="normal">和</mi><mi mathvariant="normal">并</mi><mi mathvariant="normal">发</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">区</mi><mi mathvariant="normal">别</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{并行和并发的区别}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">并</span><span class="mord cjk_fallback" style="color:red;">行</span><span class="mord cjk_fallback" style="color:red;">和</span><span class="mord cjk_fallback" style="color:red;">并</span><span class="mord cjk_fallback" style="color:red;">发</span><span class="mord cjk_fallback" style="color:red;">的</span><span class="mord cjk_fallback" style="color:red;">区</span><span class="mord cjk_fallback" style="color:red;">别</span></span></span></span></span></h2>
 <h4 id="并行parallel指在同一时刻有多条指令在多个处理器上同时执行">并行(parallel)：指在同一时刻，有多条指令在多个处理器上同时执行。</h4>
-<p><img src="https://jiajiaba.github.io/post-images/1567838533900.jpg" alt=""></p>
+<p><img src="https://jiajia775.github.io/post-images/1567838533900.jpg" alt=""></p>
 <h4 id="并发concurrency指在同一时刻只能有一条指令执行但多个进程指令被快速的轮换执行使得在宏观上具有多个进程同时执行的效果但在微观上并不是同时执行的只是把时间分成若干段使多个进程快速交替的执行">并发(concurrency)：指在同一时刻只能有一条指令执行，但多个进程指令被快速的轮换执行，使得在宏观上具有多个进程同时执行的效果，但在微观上并不是同时执行的，只是把时间分成若干段，使多个进程快速交替的执行。</h4>
-<p><img src="https://jiajiaba.github.io/post-images/1567838559318.jpg" alt=""><br>
+<p><img src="https://jiajia775.github.io/post-images/1567838559318.jpg" alt=""><br>
 并行就相当于两个队列同时使用两台咖啡机<br>
 并发就相当于两个队列交替使用一台咖啡机<br>
-<img src="https://jiajiaba.github.io/post-images/1567838628453.png" alt=""></p>
+<img src="https://jiajia775.github.io/post-images/1567838628453.png" alt=""></p>
 <h2 id="colorredgoroutine"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi>g</mi><mi>o</mi><mi>r</mi><mi>o</mi><mi>u</mi><mi>t</mi><mi>i</mi><mi>n</mi><mi>e</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{goroutine}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord" style="color:red;"><span class="mord mathdefault" style="margin-right:0.03588em;color:red;">g</span><span class="mord mathdefault" style="color:red;">o</span><span class="mord mathdefault" style="margin-right:0.02778em;color:red;">r</span><span class="mord mathdefault" style="color:red;">o</span><span class="mord mathdefault" style="color:red;">u</span><span class="mord mathdefault" style="color:red;">t</span><span class="mord mathdefault" style="color:red;">i</span><span class="mord mathdefault" style="color:red;">n</span><span class="mord mathdefault" style="color:red;">e</span></span></span></span></span></h2>
 <h4 id="什么是goroutine">什么是goroutine？</h4>
 <p>goroutine是Go并行设计的核心。goroutine说到底其实就是协程，但是它比线程更小，十几个goroutine可能体现在底层就是五六个线程，Go语言内部帮你实现了这些goroutine之间的内存共享。执行goroutine只需极少的栈内存(大概是4~5KB)，当然会根据相应的数据伸缩。也正因为如此，可同时运行成千上万个并发任务。goroutine比thread更易用、更高效、更轻便。</p>
@@ -351,7 +351,7 @@ func main() {
 <p>无缓冲的通道（unbuffered channel）是指在接收前没有能力保存任何值的通道。</p>
 <p>这种类型的通道要求发送 goroutine 和接收 goroutine 同时准备好，才能完成发送和接收操作。如果两个goroutine没有同时准备好，通道会导致先执行发送或接收操作的 goroutine 阻塞等待。</p>
 <p>这种对通道进行发送和接收的交互行为本身就是同步的。其中任意一个操作都无法离开另一个操作单独存在。<br>
-<img src="https://jiajiaba.github.io/post-images/1567909155237.png" alt=""></p>
+<img src="https://jiajia775.github.io/post-images/1567909155237.png" alt=""></p>
 <ul>
 <li>在第 1 步，两个 goroutine 都到达通道，但哪个都没有开始执行发送或者接收。</li>
 <li>在第 2 步，左侧的 goroutine 将它的手伸进了通道，这模拟了向通道发送数据的行为。这时，这个 goroutine 会在通道中被锁住，直到交换完成。</li>
@@ -407,7 +407,7 @@ main协程结束
 <p>是一种在被接收前能存储一个或者多个值的通道。</p>
 <p>这种类型的通道并不强制要求 goroutine 之间必须同时完成发送和接收。通道会阻塞发送和接收动作的条件也会不同。只有在通道中没有要接收的值时，接收动作才会阻塞。只有在通道没有可用缓冲区容纳被发送的值时，发送动作才会阻塞。</p>
 <p>这导致有缓冲的通道和无缓冲的通道之间的一个很大的不同：无缓冲的通道保证进行发送和接收的 goroutine 会在同一时间进行数据交换；有缓冲的通道没有这种保证。<br>
-<img src="https://jiajiaba.github.io/post-images/1567910289527.png" alt=""></p>
+<img src="https://jiajia775.github.io/post-images/1567910289527.png" alt=""></p>
 <ul>
 <li>在第 1 步，右侧的 goroutine 正在从通道接收一个值。</li>
 <li>在第 2 步，右侧的这个 goroutine独立完成了接收值的动作，而左侧的 goroutine 正在发送一个新值到通道里。</li>
@@ -521,8 +521,8 @@ num =  4
     </entry>
     <entry>
         <title type="html"><![CDATA[Go语言基础之time包]]></title>
-        <id>https://jiajiaba.github.io/post/time</id>
-        <link href="https://jiajiaba.github.io/post/time">
+        <id>https://jiajia775.github.io/post/time</id>
+        <link href="https://jiajia775.github.io/post/time">
         </link>
         <updated>2019-09-06T07:12:54.000Z</updated>
         <summary type="html"><![CDATA[<p>Go语言内置的time包的基本用法。</p>
@@ -655,8 +655,8 @@ func main() {
     </entry>
     <entry>
         <title type="html"><![CDATA[Go语言基础之文件操作]]></title>
-        <id>https://jiajiaba.github.io/post/document</id>
-        <link href="https://jiajiaba.github.io/post/document">
+        <id>https://jiajia775.github.io/post/document</id>
+        <link href="https://jiajia775.github.io/post/document">
         </link>
         <updated>2019-09-05T06:58:14.000Z</updated>
         <summary type="html"><![CDATA[<p>Go语言中文件读写的相关操作。</p>
@@ -805,7 +805,7 @@ func main() {
 <li>name：要打开的文件名</li>
 <li>perm：文件的权限，一个八进制数，r（读）04，w（写）02，x（执行）01。</li>
 <li>flag：文件打开的模式，具体如下表<br>
-<img src="https://jiajiaba.github.io/post-images/1567685779306.png" alt=""></li>
+<img src="https://jiajia775.github.io/post-images/1567685779306.png" alt=""></li>
 </ul>
 <h4 id="write和writestring">Write和WriteString</h4>
 <pre><code class="language-/usr/bin/env">package main
@@ -874,8 +874,8 @@ func main() {
     </entry>
     <entry>
         <title type="html"><![CDATA[Go语言基础之面向对象编程]]></title>
-        <id>https://jiajiaba.github.io/post/Object</id>
-        <link href="https://jiajiaba.github.io/post/Object">
+        <id>https://jiajia775.github.io/post/Object</id>
+        <link href="https://jiajia775.github.io/post/Object">
         </link>
         <updated>2019-09-04T02:43:05.000Z</updated>
         <summary type="html"><![CDATA[<p>尽管Go语言中没有封装、继承、多态这些概念，但同样通过别的方式实现这些特性：</p>
@@ -1419,8 +1419,8 @@ func main() {
     </entry>
     <entry>
         <title type="html"><![CDATA[Go语言基础之结构体]]></title>
-        <id>https://jiajiaba.github.io/post/struct</id>
-        <link href="https://jiajiaba.github.io/post/struct">
+        <id>https://jiajia775.github.io/post/struct</id>
+        <link href="https://jiajia775.github.io/post/struct">
         </link>
         <updated>2019-09-04T00:53:35.000Z</updated>
         <summary type="html"><![CDATA[<p>Go语言提供了一种自定义数据类型，可以封装多个基本数据类型，这种数据类型叫结构体，英文名称struct。</p>
@@ -1656,8 +1656,8 @@ n.d 0xc00005405b
     </entry>
     <entry>
         <title type="html"><![CDATA[Go语言基础之函数]]></title>
-        <id>https://jiajiaba.github.io/post/hanshu</id>
-        <link href="https://jiajiaba.github.io/post/hanshu">
+        <id>https://jiajia775.github.io/post/hanshu</id>
+        <link href="https://jiajia775.github.io/post/hanshu">
         </link>
         <updated>2019-09-03T07:12:19.000Z</updated>
         <summary type="html"><![CDATA[<p>函数是组织好的、可重复使用的、用于执行指定任务的代码块。</p>
@@ -2041,8 +2041,8 @@ func main() {
     </entry>
     <entry>
         <title type="html"><![CDATA[Go语言基础之map]]></title>
-        <id>https://jiajiaba.github.io/post/map</id>
-        <link href="https://jiajiaba.github.io/post/map">
+        <id>https://jiajia775.github.io/post/map</id>
+        <link href="https://jiajia775.github.io/post/map">
         </link>
         <updated>2019-09-03T01:47:52.000Z</updated>
         <summary type="html"><![CDATA[<p>Go语言map的基本使用<br>
@@ -2134,8 +2134,8 @@ cap表示map的容量，该参数不是必须的，但是初始化的时候应�
     </entry>
     <entry>
         <title type="html"><![CDATA[Go语言基础之指针]]></title>
-        <id>https://jiajiaba.github.io/post/zhizheng</id>
-        <link href="https://jiajiaba.github.io/post/zhizheng">
+        <id>https://jiajia775.github.io/post/zhizheng</id>
+        <link href="https://jiajia775.github.io/post/zhizheng">
         </link>
         <updated>2019-09-03T00:34:33.000Z</updated>
         <summary type="html"><![CDATA[<p>Go语言指针的基本使用<br>
@@ -2168,7 +2168,7 @@ Go语言中的指针不能进行偏移和运算，是安全指针。</p>
 	fmt.Printf(&quot;*p = %v,a = %v&quot;, *p, a) //*p = 666,a = 666
 }
 </code></pre>
-<p><img src="https://jiajiaba.github.io/post-images/1567472710306.png" alt=""><br>
+<p><img src="https://jiajia775.github.io/post-images/1567472710306.png" alt=""><br>
 总结：<br>
 &amp;取出地址，* 根据地址取出地址指向的值，取地址操作符&amp;和取值操作符* 是一对互补操作符。</p>
 <h4 id="指针传值示例">指针传值示例：</h4>
@@ -2228,8 +2228,8 @@ func main() {
     </entry>
     <entry>
         <title type="html"><![CDATA[Go语言基础之切片]]></title>
-        <id>https://jiajiaba.github.io/post/Slice</id>
-        <link href="https://jiajiaba.github.io/post/Slice">
+        <id>https://jiajia775.github.io/post/Slice</id>
+        <link href="https://jiajia775.github.io/post/Slice">
         </link>
         <updated>2019-09-02T12:58:14.000Z</updated>
         <summary type="html"><![CDATA[<p>Go语言切片的基本使用<br>
@@ -2298,9 +2298,9 @@ c:[n2 n3 n4 n5] type:[]string len:4  cap:4
 <h2 id="colorred切片的本质"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">本</mi><mi mathvariant="normal">质</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{切片的本质}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span><span class="mord cjk_fallback" style="color:red;">的</span><span class="mord cjk_fallback" style="color:red;">本</span><span class="mord cjk_fallback" style="color:red;">质</span></span></span></span></span></h2>
 <p>切片的本质就是对底层数组的封装，它包含了三个信息：底层数组的指针、切片的长度（len）和切片的容量（cap）。</p>
 <p>举个例子，有一个数组a := [8]int{0, 1, 2, 3, 4, 5, 6, 7}，切片s1 := a[:5]，相应示意图如下。<br>
-<img src="https://jiajiaba.github.io/post-images/1567430493603.png" alt=""><br>
+<img src="https://jiajia775.github.io/post-images/1567430493603.png" alt=""><br>
 切片s2 := a[3:6]，相应示意图如下：<br>
-<img src="https://jiajiaba.github.io/post-images/1567430512393.png" alt=""></p>
+<img src="https://jiajia775.github.io/post-images/1567430512393.png" alt=""></p>
 <h2 id="colorred切片不能直接比较"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mstyle mathcolor="red"><mrow><mi mathvariant="normal">切</mi><mi mathvariant="normal">片</mi><mi mathvariant="normal">不</mi><mi mathvariant="normal">能</mi><mi mathvariant="normal">直</mi><mi mathvariant="normal">接</mi><mi mathvariant="normal">比</mi><mi mathvariant="normal">较</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\color{red}{切片不能直接比较}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord" style="color:red;"><span class="mord cjk_fallback" style="color:red;">切</span><span class="mord cjk_fallback" style="color:red;">片</span><span class="mord cjk_fallback" style="color:red;">不</span><span class="mord cjk_fallback" style="color:red;">能</span><span class="mord cjk_fallback" style="color:red;">直</span><span class="mord cjk_fallback" style="color:red;">接</span><span class="mord cjk_fallback" style="color:red;">比</span><span class="mord cjk_fallback" style="color:red;">较</span></span></span></span></span></h2>
 <ol>
 <li>切片之间是不能比较的，我们不能使用==操作符来判断两个切片是否含有全部相等元素。</li>
@@ -2368,8 +2368,8 @@ cap:16======&gt;32
     </entry>
     <entry>
         <title type="html"><![CDATA[Go语言基础之数组]]></title>
-        <id>https://jiajiaba.github.io/post/shuzu</id>
-        <link href="https://jiajiaba.github.io/post/shuzu">
+        <id>https://jiajia775.github.io/post/shuzu</id>
+        <link href="https://jiajia775.github.io/post/shuzu">
         </link>
         <updated>2019-09-02T07:03:10.000Z</updated>
         <summary type="html"><![CDATA[<p>Go语言数组的基本使用</p>
